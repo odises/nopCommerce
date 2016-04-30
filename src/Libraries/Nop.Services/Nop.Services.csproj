@@ -251,6 +251,7 @@
     <Compile Include="Infrastructure\IMachineNameProvider.cs" />
     <Compile Include="Helpers\IUserAgentHelper.cs" />
     <Compile Include="Helpers\UserAgentHelper.cs" />
+    <Compile Include="Localization\ExtendedLocalizationService.cs" />
     <Compile Include="Logging\ClearLogTask.cs" />
     <Compile Include="Media\AzurePictureService.cs" />
     <Compile Include="Media\ResizeType.cs" />

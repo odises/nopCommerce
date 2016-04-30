@@ -48,7 +48,7 @@ namespace Nop.Services.Localization
         #region Fields
 
         private readonly IRepository<LocaleStringResource> _lsrRepository;
-        private readonly IWorkContext _workContext;
+        protected readonly IWorkContext WorkContext;
         private readonly ILogger _logger;
         private readonly ILanguageService _languageService;
         private readonly ICacheManager _cacheManager;
@@ -84,7 +84,7 @@ namespace Nop.Services.Localization
         {
             this._cacheManager = cacheManager;
             this._logger = logger;
-            this._workContext = workContext;
+            this.WorkContext = workContext;
             this._lsrRepository = lsrRepository;
             this._languageService = languageService;
             this._dataProvider = dataProvider;
@@ -136,8 +136,8 @@ namespace Nop.Services.Localization
         /// <returns>Locale string resource</returns>
         public virtual LocaleStringResource GetLocaleStringResourceByName(string resourceName)
         {
-            if (_workContext.WorkingLanguage != null)
-                return GetLocaleStringResourceByName(resourceName, _workContext.WorkingLanguage.Id);
+            if (WorkContext.WorkingLanguage != null)
+                return GetLocaleStringResourceByName(resourceName, WorkContext.WorkingLanguage.Id);
 
             return null;
         }
@@ -250,8 +250,8 @@ namespace Nop.Services.Localization
         /// <returns>A string representing the requested resource string.</returns>
         public virtual string GetResource(string resourceKey)
         {
-            if (_workContext.WorkingLanguage != null)
-                return GetResource(resourceKey, _workContext.WorkingLanguage.Id);
+            if (WorkContext.WorkingLanguage != null)
+                return GetResource(resourceKey, WorkContext.WorkingLanguage.Id);
             
             return "";
         }

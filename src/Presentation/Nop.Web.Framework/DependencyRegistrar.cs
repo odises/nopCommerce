@@ -228,7 +228,7 @@ namespace Nop.Web.Framework
             builder.RegisterSource(new SettingsSource());
 
             //use static cache (between HTTP requests)
-            builder.RegisterType<LocalizationService>().As<ILocalizationService>()
+            builder.RegisterType<ExtendedLocalizationService>().As<ILocalizationService>()
                 .WithParameter(ResolvedParameter.ForNamed<ICacheManager>("nop_cache_static"))
                 .InstancePerLifetimeScope();
 
