@@ -1055,7 +1055,7 @@ namespace Nop.Web.Controllers
                             (int?)customer.GetAttribute<int>(SystemCustomerAttributeNames.StateProvinceId) : null,
                         City = customer.GetAttribute<string>(SystemCustomerAttributeNames.City),
                         Address1 = customer.GetAttribute<string>(SystemCustomerAttributeNames.StreetAddress),
-                        Address2 = customer.GetAttribute<string>(SystemCustomerAttributeNames.StreetAddress2),
+                        Address2 = "1",
                         ZipPostalCode = customer.GetAttribute<string>(SystemCustomerAttributeNames.ZipPostalCode),
                         PhoneNumber = customer.GetAttribute<string>(SystemCustomerAttributeNames.Phone),
                         FaxNumber = customer.GetAttribute<string>(SystemCustomerAttributeNames.Fax),
@@ -1460,6 +1460,8 @@ namespace Nop.Web.Controllers
 
             var customer = _workContext.CurrentCustomer;
 
+            var count = customer.Addresses.Count + 1;
+
             //custom address attributes
             var customAttributes = form.ParseCustomAddressAttributes(_addressAttributeParser, _addressAttributeService);
             var customAttributeWarnings = _addressAttributeParser.GetAttributeWarnings(customAttributes);
@@ -1478,6 +1480,7 @@ namespace Nop.Web.Controllers
                     address.CountryId = null;
                 if (address.StateProvinceId == 0)
                     address.StateProvinceId = null;
+                address.Address2 = count.ToString();
                 customer.Addresses.Add(address);
                 _customerService.UpdateCustomer(customer);
 
