@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using FluentValidation;
 using FluentValidation.Results;
 using Nop.Core;
@@ -77,7 +78,7 @@ namespace Nop.Web.Validators.Customer
             }
             if (customerSettings.StreetAddressRequired && customerSettings.StreetAddressEnabled)
             {
-                RuleFor(x => x.StreetAddress).NotEmpty().WithMessage(localizationService.GetResource("Account.Fields.StreetAddress.Required"));
+                //RuleFor(x => x.StreetAddress).NotEmpty().WithMessage(localizationService.GetResource("Account.Fields.StreetAddress.Required"));
             }
             if (customerSettings.StreetAddress2Required && customerSettings.StreetAddress2Enabled)
             {
@@ -94,6 +95,9 @@ namespace Nop.Web.Validators.Customer
             if (customerSettings.PhoneRequired && customerSettings.PhoneEnabled)
             {
                 RuleFor(x => x.Phone).NotEmpty().WithMessage(localizationService.GetResource("Account.Fields.Phone.Required"));
+                RuleFor(x => x.Phone)
+                .Matches(new Regex(@"^((\u0030\u0039[\u0030-\u0033][\u0030-\u0039][\u0030-\u0039]{7})|(\u0660\u0669[\u0660-\u0663][\u0660-\u0669][\u0660-\u0669]{7})|(\u06F0\u06F9[\u06F0-\u06F3][\u06F0-\u06F9][\u06F0-\u06F9]{7}))$"))
+                .WithMessage(localizationService.GetResource("Common.WrongPhoneNumber"));
             }
             if (customerSettings.FaxRequired && customerSettings.FaxEnabled)
             {
