@@ -1,4 +1,4 @@
-
+﻿
 /*load fonts*/
 @font-face {
   font-family: "iransans";
@@ -13,6 +13,14 @@
   src: url("../fonts/iransans.eot?#iefix") format("embedded-opentype"), url("../fonts/iransans.woff") format("woff"), url("../fonts/iransans.ttf") format("truetype"), url("../fonts/iransans.svg#iransans") format("svg");
   font-style: normal;
   font-weight: normal;
+}
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../fonts/fontawesome-webfont.eot");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2") format("woff2"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesomeregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
 }
 
 caption, th, td { text-align: right; }
@@ -6683,4 +6691,130 @@ pre {
 	max-width: 600px !important;
 }
 
+}
+
+.ico-account {
+    font-weight: bold;
+}
+
+
+/* line 8873, sass/new_design.scss */
+ul.socials {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* line 8880, sass/new_design.scss */
+ul.socials li {
+  float: left;
+  text-align: center;
+  margin-right: 12px;
+  margin-bottom: 12px;
+}
+
+/* line 8887, sass/new_design.scss */
+ul.socials li:hover a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* line 8892, sass/new_design.scss */
+ul.socials li a {
+  width: 32px;
+  height: 32px;
+  background-color: #f5f5f5;
+  color: #888;
+  transition: all .2s ease;
+  border-radius: 100%;
+  font-size: 21px;
+  line-height: 1.6em;
+  display: block;
+  background-size: 90%;
+  background-position: center center;
+}
+
+/* line 8906, sass/new_design.scss */
+ul.socials li.aparat a {
+  background-image: url("../images/socials/aparat_logo.png");
+}
+
+/* line 8910, sass/new_design.scss */
+ul.socials li.telegram a {
+  background-image: url("../images/socials/telegram_logo.png");
+}
+
+/* line 8914, sass/new_design.scss */
+ul.socials li:hover.telegram a {
+  background-color: #18c5ea;
+  background-image: url("../images/socials/telegram_logo_hover.png");
+}
+
+/* line 8919, sass/new_design.scss */
+ul.socials li:hover.twitter a {
+  background-color: #3b9fde;
+}
+
+/* line 8923, sass/new_design.scss */
+ul.socials li:hover.facebook a {
+  background-color: #3b5998;
+}
+
+/* line 8927, sass/new_design.scss */
+ul.socials li:hover.instagram a {
+  background-color: #3f729b;
+}
+
+/* line 8931, sass/new_design.scss */
+ul.socials li:hover.google-plus a {
+  background-color: #d34836;
+}
+
+/* line 8935, sass/new_design.scss */
+ul.socials li:hover.pinterest a {
+  background-color: #c42429;
+}
+
+/* line 8939, sass/new_design.scss */
+ul.socials li:hover.linkedin a {
+  background-color: #0e76a8;
+}
+
+/* line 8943, sass/new_design.scss */
+ul.socials li:hover.aparat a {
+  background-color: #ed145b;
+  background-image: url("../images/socials/aparat_logo_hover.png");
+}
+/*.mysocial {
+    margin: 0 0 15px;
+	padding: 0 0 15px;
+	font-size: 0;
+}*/
+
+.fa 
+{
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: sub;
+}
+
+.fa-facebook-f:before, .fa-facebook:before {
+    content: "";
+}
+
+.fa-instagram:before {
+    content: "";
+}
+
+.fa-pinterest:before {
+    content: "";
+}
+
+.fa-linkedin:before {
+    content: "";
 }
