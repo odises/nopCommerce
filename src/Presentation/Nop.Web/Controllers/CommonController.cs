@@ -387,6 +387,7 @@ namespace Nop.Web.Controllers
 
             var model = new HeaderLinksModel
             {
+                UserNameFamily = customer.IsRegistered() ? $"{customer.Addresses.FirstOrDefault()?.FirstName} {customer.Addresses.FirstOrDefault()?.LastName}" : "",
                 IsAuthenticated = customer.IsRegistered(),
                 CustomerEmailUsername = customer.IsRegistered() ? (_customerSettings.UsernamesEnabled ? customer.Username : customer.Email) : "",
                 ShoppingCartEnabled = _permissionService.Authorize(StandardPermissionProvider.EnableShoppingCart),
