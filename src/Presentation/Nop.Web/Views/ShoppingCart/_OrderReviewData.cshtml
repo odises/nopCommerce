@@ -3,110 +3,7 @@
 @if (Model.Display)
 {
     <div class="order-review-data">
-        <ul class="billing-info">
-            <li class="title">
-                @T("Order.BillingAddress")
-            </li>
-            <li class="name">
-                @Model.BillingAddress.FirstName @Model.BillingAddress.LastName
-            </li>
-            <li class="email">
-                @T("Order.Email"): @Model.BillingAddress.Email
-            </li>
-            @if (Model.BillingAddress.PhoneEnabled)
-            {
-                <li class="phone">
-                    @T("Order.Phone"): @Model.BillingAddress.PhoneNumber
-                </li>
-            }
-            @if (Model.BillingAddress.FaxEnabled)
-            {
-                <li class="fax">
-                    @T("Order.Fax"): @Model.BillingAddress.FaxNumber
-                </li>
-            }
-            @if (Model.BillingAddress.CompanyEnabled && !String.IsNullOrEmpty(Model.BillingAddress.Company))
-            {
-                <li class="company">
-                    @Model.BillingAddress.Company
-                </li>
-            }
-            @if (Model.BillingAddress.StreetAddressEnabled)
-            {
-                <li class="address1">
-                    @Model.BillingAddress.Address1
-                </li>
-            }
-            @if (Model.BillingAddress.StreetAddress2Enabled && !String.IsNullOrEmpty(Model.BillingAddress.Address2))
-            {
-                <li class="address2">
-                    @Model.BillingAddress.Address2
-                </li>
-            }
-            @if (Model.BillingAddress.CityEnabled ||
-                Model.BillingAddress.StateProvinceEnabled ||
-                Model.BillingAddress.ZipPostalCodeEnabled)
-            {
-                <li class="city-state-zip">
-                    @if (Model.BillingAddress.CityEnabled)
-                    {
-                        @Model.BillingAddress.City
-                    }
-                    @if (Model.BillingAddress.CityEnabled && (Model.BillingAddress.StateProvinceEnabled || Model.BillingAddress.ZipPostalCodeEnabled))
-                    {
-                        <text>,</text>
-                    }
-                    @if (Model.BillingAddress.StateProvinceEnabled)
-                    {
-                        @Model.BillingAddress.StateProvinceName
-                    }
-                    @if (Model.BillingAddress.ZipPostalCodeEnabled)
-                    {
-                        @Model.BillingAddress.ZipPostalCode
-                    }
-                </li>
-            }
-            @if (Model.BillingAddress.CountryEnabled && !String.IsNullOrEmpty(Model.BillingAddress.CountryName))
-            {
-                <li class="country">
-                    @Model.BillingAddress.CountryName
-                </li>
-            }
-            @if (!String.IsNullOrEmpty(Model.BillingAddress.FormattedCustomAddressAttributes))
-            {
-                <li class="custom-attributes-view">
-                    @Html.Raw(Model.BillingAddress.FormattedCustomAddressAttributes)
-                </li>
-            }
-            @if (!String.IsNullOrEmpty(Model.PaymentMethod))
-            {
-                <li class="title">
-                    @T("Order.Payment")
-                </li>
-                <li class="payment-method">
-                    <span class="label">
-                        @T("Order.Payment.Method"):
-                    </span>
-                    <span class="value">
-                        @Model.PaymentMethod
-                    </span>
-                </li>
-            }
-            @if (Model.CustomValues != null)
-            {
-                foreach (var item in Model.CustomValues)
-                {
-                    <li class="custom-value">
-                        <span class="label">
-                            @item.Key:
-                        </span>
-                        <span class="value">
-                            @(item.Value != null ? item.Value.ToString() : "")
-                        </span>
-                    </li>
-                }
-            }
-        </ul>
+        
         @if (Model.IsShippable)
         {
             <ul class="shipping-info">
@@ -118,9 +15,7 @@
                     <li class="name">
                         @Model.ShippingAddress.FirstName @Model.ShippingAddress.LastName
                     </li>
-                    <li class="email">
-                        @T("Order.Email"): @Model.ShippingAddress.Email
-                    </li>
+                    
                     if (Model.ShippingAddress.PhoneEnabled)
                     {
                         <li class="phone">
@@ -187,9 +82,7 @@
                         </li>
                     }
                 }
-                <li class="title">
-                    @T("Order.Shipping")
-                </li>
+                
                 <li class="shipping-method">
                     <span class="label">
                         @T("Order.Shipping.Name"):
