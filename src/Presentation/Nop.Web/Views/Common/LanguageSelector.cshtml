@@ -4,7 +4,7 @@
 @using Nop.Core.Infrastructure;
 @if (Model.AvailableLanguages.Count > 1)
 {
-    <div class="language-selector">
+    @*<div class="language-selector">
     @{
         var webHelper = EngineContext.Current.Resolve<IWebHelper>();
 
@@ -34,5 +34,5 @@
             @Html.DropDownList("customerlanguage", languages, new { onchange = "setLocation(this.value);" })
         }
     }
-    </div>
+    </div>*@
 }

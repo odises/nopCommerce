@@ -7,6 +7,7 @@ using Nop.Services.Directory;
 using Nop.Services.Localization;
 using Nop.Web.Framework.Validators;
 using Nop.Web.Models.Customer;
+using System.Text.RegularExpressions;
 
 namespace Nop.Web.Validators.Customer
 {
@@ -108,6 +109,9 @@ namespace Nop.Web.Validators.Customer
             if (customerSettings.PhoneRequired && customerSettings.PhoneEnabled)
             {
                 RuleFor(x => x.Phone).NotEmpty().WithMessage(localizationService.GetResource("Account.Fields.Phone.Required"));
+                RuleFor(x => x.Phone)
+                .Matches(new Regex(@"^((\u0030\u0039[\u0030-\u0033][\u0030-\u0039][\u0030-\u0039]{7})|(\u0660\u0669[\u0660-\u0663][\u0660-\u0669][\u0660-\u0669]{7})|(\u06F0\u06F9[\u06F0-\u06F3][\u06F0-\u06F9][\u06F0-\u06F9]{7}))$"))
+                .WithMessage(localizationService.GetResource("Common.WrongPhoneNumber"));
             }
             if (customerSettings.FaxRequired && customerSettings.FaxEnabled)
             {

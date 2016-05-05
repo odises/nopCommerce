@@ -4,6 +4,7 @@ namespace Nop.Web.Models.Common
 {
     public partial class HeaderLinksModel : BaseNopModel
     {
+        public string UserNameFamily { get; set; }
         public bool IsAuthenticated { get; set; }
         public string CustomerEmailUsername { get; set; }
         

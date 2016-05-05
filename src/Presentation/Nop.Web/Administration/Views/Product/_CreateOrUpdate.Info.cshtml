@@ -433,7 +433,7 @@
                     </div>
                     <div class="col-sm-9">
                         <p>
-                            @Html.ActionLink(Model.AssociatedToProductName, "Edit", "Product", new {id = Model.AssociatedToProductId}, new {})
+                            @Html.ActionLink(Model.AssociatedToProductName, "Edit", "Product", new { id = Model.AssociatedToProductId }, new { })
                         </p>
                     </div>
                 </div>
@@ -594,7 +594,7 @@
                     @Html.NopLabelFor(model => model.Gtin)
                 </div>
                 <div class="col-sm-9">
-                    @Html.EditorFor(model => model.Gtin)
+                    @Html.NopEditorFor(model => model.Gtin)
                     @Html.ValidationMessageFor(model => model.Gtin)
                 </div>
             </div>
@@ -788,28 +788,36 @@
                     @Html.ValidationMessageFor(model => model.RequireOtherProducts)
                 </div>
             </div>
-            <div class="form-group" id="pnlRequiredProductIds">
-                <div class="col-sm-3">
-                    @Html.NopLabelFor(model => model.RequiredProductIds)
+            <div id="pnlRequiredProductIds">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        @Html.NopLabelFor(model => model.RequiredProductIds)
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.NopEditorFor(model => model.RequiredProductIds)
+                        @Html.ValidationMessageFor(model => model.RequiredProductIds)
+                    </div>
                 </div>
-                <div class="col-sm-9">
-                    @Html.NopEditorFor(model => model.RequiredProductIds)
-                    @Html.ValidationMessageFor(model => model.RequiredProductIds)
-                    <span id="required-products-check-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
-                    <input type="submit" id="btnAddNewRequiredProduct" value="@T("Admin.Catalog.Products.Fields.RequiredProductIds.AddNew")" onclick="javascript:OpenWindow('@(Url.Action("RequiredProductAddPopup", "Product", new {btnId = "btnRefreshRequiredProducts", productIdsInput = "RequiredProductIds"}))', 800, 800, true); return false;" class="btn btn-default" />
-                    <input type="submit" id="btnRefreshRequiredProducts" style="display: none" />
-                    <script type="text/javascript">
-                        $(document).ready(function() {
-                            $('#btnRefreshRequiredProducts').click(function() {
-                                //refresh product list
-                                loadRequiredProductFriendlyNames();
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <span id="required-products-check-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="submit" id="btnAddNewRequiredProduct" value="@T("Admin.Catalog.Products.Fields.RequiredProductIds.AddNew")" onclick="javascript:OpenWindow('@(Url.Action("RequiredProductAddPopup", "Product", new {btnId = "btnRefreshRequiredProducts", productIdsInput = "RequiredProductIds"}))', 800, 800, true); return false;" class="btn btn-default" />
+                        <input type="submit" id="btnRefreshRequiredProducts" style="display: none" />
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('#btnRefreshRequiredProducts').click(function() {
+                                    //refresh product list
+                                    loadRequiredProductFriendlyNames();
 
-                                //return false to don't reload a page
-                                return false;
+                                    //return false to don't reload a page
+                                    return false;
+                                });
                             });
-                        });
-                    </script>
-                    <span id="required-product-names" class="required-product-names"></span>
+                        </script>
+                        <span id="required-product-names" style="margin-left: 10px;"></span>
+                    </div>
                 </div>
             </div>
             <div class="form-group" id="pnlAutomaticallyAddRequiredProducts">
@@ -871,9 +879,12 @@
                 <div class="col-sm-3">
                     @Html.NopLabelFor(model => model.DownloadId)
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-3">
                     @Html.NopEditorFor(model => model.DownloadId)
                     @Html.ValidationMessageFor(model => model.DownloadId)
+                </div>
+                <div class="col-sm-3">
+                    &nbsp;
                 </div>
             </div>
             <div class="form-group" id="pnlUnlimitedDownloads">
@@ -943,9 +954,12 @@
                 <div class="col-sm-3">
                     @Html.NopLabelFor(model => model.SampleDownloadId)
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-3">
                     @Html.NopEditorFor(model => model.SampleDownloadId)
                     @Html.ValidationMessageFor(model => model.SampleDownloadId)
+                </div>
+                <div class="col-sm-3">
+                    &nbsp;
                 </div>
             </div>
         </div>
@@ -1178,66 +1192,70 @@
                 <div class="col-sm-9">
                     @if (Model.ProductWarehouseInventoryModels.Count > 0)
                     {
-                        <table style="width: 600px; border-collapse: collapse;">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        @T("Admin.Catalog.Products.ProductWarehouseInventory.Fields.Warehouse")
-                                    </th>
-                                    <th align="center">
-                                        @T("Admin.Catalog.Products.ProductWarehouseInventory.Fields.WarehouseUsed")
-                                    </th>
-                                    <th align="center">
-                                        @T("Admin.Catalog.Products.ProductWarehouseInventory.Fields.StockQuantity")
-                                    </th>
-                                    <th align="center">
-                                        @T("Admin.Catalog.Products.ProductWarehouseInventory.Fields.ReservedQuantity")
-                                    </th>
-                                    <th align="center">
-                                        @T("Admin.Catalog.Products.ProductWarehouseInventory.Fields.PlannedQuantity")
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.ProductWarehouseInventoryModels)
-                {
-                                    <tr>
-                                        <td style="width: 40%;">
-                                            <div style="padding-left: 10px; padding-right: 10px;">
-                                                @item.WarehouseName
-                                            </div>
-                                        </td>
-                                        <td align="center" style="width: 10%;">
-                                            <input type="checkbox" id="warehouse_used_@(item.WarehouseId)" name="warehouse_used_@(item.WarehouseId)" value="@item.WarehouseId" checked="@item.WarehouseUsed" />
-                                            <script type="text/javascript">
-                                                $(document).ready(function() {
-                                                    $("#warehouse_used_@(item.WarehouseId)").change(toggleWarehouseUsed_@(item.WarehouseId));
-                                                    toggleWarehouseUsed_@(item.WarehouseId)();
-                                                });
+                        <div class="box box-default box-solid">
+                            <div class="box-body no-padding">
+                                <table class="table table-hover table-bordered text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @T("Admin.Catalog.Products.ProductWarehouseInventory.Fields.Warehouse")
+                                            </th>
+                                            <th>
+                                                @T("Admin.Catalog.Products.ProductWarehouseInventory.Fields.WarehouseUsed")
+                                            </th>
+                                            <th>
+                                                @T("Admin.Catalog.Products.ProductWarehouseInventory.Fields.StockQuantity")
+                                            </th>
+                                            <th>
+                                                @T("Admin.Catalog.Products.ProductWarehouseInventory.Fields.ReservedQuantity")
+                                            </th>
+                                            <th>
+                                                @T("Admin.Catalog.Products.ProductWarehouseInventory.Fields.PlannedQuantity")
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ProductWarehouseInventoryModels)
+                                        {
+                                            <tr>
+                                                <td style="width: 40%;">
+                                                    <div style="padding-left: 10px; padding-right: 10px;">
+                                                        @item.WarehouseName
+                                                    </div>
+                                                </td>
+                                                <td style="width: 10%;">
+                                                    <input type="checkbox" id="warehouse_used_@(item.WarehouseId)" name="warehouse_used_@(item.WarehouseId)" value="@item.WarehouseId" checked="@item.WarehouseUsed" />
+                                                    <script type="text/javascript">
+                                                        $(document).ready(function() {
+                                                            $("#warehouse_used_@(item.WarehouseId)").change(toggleWarehouseUsed_@(item.WarehouseId));
+                                                            toggleWarehouseUsed_@(item.WarehouseId)();
+                                                        });
 
-                                                function toggleWarehouseUsed_@(item.WarehouseId)() {
-                                                    if ($('#warehouse_used_@(item.WarehouseId)').is(':checked')) {
-                                                        $('#warehouse_qty_@(item.WarehouseId)').prop('disabled', false);
-                                                        $('#warehouse_reserved_@(item.WarehouseId)').prop('disabled', false);
-                                                    } else {
-                                                        $('#warehouse_qty_@(item.WarehouseId)').prop('disabled', true);
-                                                        $('#warehouse_reserved_@(item.WarehouseId)').prop('disabled', true);
-                                                    }
-                                                }
-                                            </script>
-                                        <td align="center" style="width: 20%;">
-                                            <input id="warehouse_qty_@(item.WarehouseId)" name="warehouse_qty_@(item.WarehouseId)" type="text" value="@item.StockQuantity" class="adminInput" style="width: 70px;" />
-                                        </td>
-                                        <td align="center" style="width: 20%;">
-                                            <input id="warehouse_reserved_@(item.WarehouseId)" name="warehouse_reserved_@(item.WarehouseId)" type="text" value="@item.ReservedQuantity" class="adminInput" style="width: 70px;" />
-                                        </td>
-                                        <td align="center" style="width: 10%;">
-                                            @item.PlannedQuantity
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                                                        function toggleWarehouseUsed_@(item.WarehouseId)() {
+                                                            if ($('#warehouse_used_@(item.WarehouseId)').is(':checked')) {
+                                                                $('#warehouse_qty_@(item.WarehouseId)').prop('disabled', false);
+                                                                $('#warehouse_reserved_@(item.WarehouseId)').prop('disabled', false);
+                                                            } else {
+                                                                $('#warehouse_qty_@(item.WarehouseId)').prop('disabled', true);
+                                                                $('#warehouse_reserved_@(item.WarehouseId)').prop('disabled', true);
+                                                            }
+                                                        }
+                                                    </script>
+                                                <td style="width: 20%;">
+                                                    <input id="warehouse_qty_@(item.WarehouseId)" name="warehouse_qty_@(item.WarehouseId)" type="text" value="@item.StockQuantity" class="form-control" />
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <input id="warehouse_reserved_@(item.WarehouseId)" name="warehouse_reserved_@(item.WarehouseId)" type="text" value="@item.ReservedQuantity" class="form-control" />
+                                                </td>
+                                                <td style="width: 10%;">
+                                                    @item.PlannedQuantity
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <p>
                             <em>@T("Admin.Catalog.Products.ProductWarehouseInventory.Description1")</em>
                         </p>

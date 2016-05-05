@@ -56,6 +56,7 @@ table.adminContent {
 
 .form-horizontal .control-label {
     float: right;
+    max-width: 90%;
 }
 .form-horizontal img.ico-help {
     float: right;
@@ -225,10 +226,6 @@ table td .form-group {
     margin-left: 5px;
 }
 
-.form-horizontal .control-label {
-    padding-top: 7px;
-}
-
 .please-wait {
     background: url('images/ajax_loader_small.gif') no-repeat;
     padding-left: 20px;
@@ -309,4 +306,12 @@ table td .form-group {
 
 input[type=file].form-control {
     height: auto;
+}
+
+.qq-upload-list {
+    margin-top: 5px !important;
+}
+
+.qq-upload-list li.qq-upload-success {
+    background-color: #3c8dbc !important;
 }
