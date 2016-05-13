@@ -498,8 +498,8 @@ namespace Nop.Services.Orders
                         if (details.Customer.ShippingAddress == null)
                             throw new NopException("Shipping address is not provided");
 
-                        if (!CommonHelper.IsValidEmail(details.Customer.ShippingAddress.Email))
-                            throw new NopException("Email is not valid");
+                        //if (!CommonHelper.IsValidEmail(details.Customer.ShippingAddress.Email))
+                            //throw new NopException("Email is not valid");
 
                         //clone shipping address
                         details.ShippingAddress = (Address)details.Customer.ShippingAddress.Clone();
