@@ -65,7 +65,6 @@
                             @Html.TextBoxFor(model => model.Email, new
                             { disabled = "disabled", @readonly = "readonly" })
 
-                        @Html.RequiredHint()
                         @Html.ValidationMessageFor(model => model.Email)
                     </div>
 
