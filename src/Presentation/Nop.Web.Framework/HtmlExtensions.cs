@@ -22,24 +22,6 @@ namespace Nop.Web.Framework
     {
         #region Admin area extensions
 
-        public static MvcHtmlString Hint(this HtmlHelper helper, string value)
-        {
-            // Create tag builder
-            var builder = new TagBuilder("img");
-
-            // Add attributes
-            var urlHelper = new UrlHelper(helper.ViewContext.RequestContext);
-            var url = MvcHtmlString.Create(urlHelper.Content("~/Administration/Content/images/ico-help.gif")).ToHtmlString();
-
-            builder.MergeAttribute("src", url);
-            builder.MergeAttribute("alt", value);
-            builder.MergeAttribute("title", value);
-            builder.MergeAttribute("class", "ico-help");
-
-            // Render tag
-            return MvcHtmlString.Create(builder.ToString());
-        }
-
         public static HelperResult LocalizedEditor<T, TLocalizedModelLocal>(this HtmlHelper<T> helper,
             string name,
             Func<int, HelperResult> localizedTemplate,
@@ -69,8 +51,8 @@ namespace Nop.Web.Framework
                     tabStrip.AppendLine("<li class=\"active\">");
                     tabStrip.AppendLine(
                         string.Format(
-                            "<a data-tab-name=\"{0}-localized-tab\" href=\"#{0}-localized-tab\" data-toggle=\"tab\">{1}</a>",
-                            "standard", "Standard"));
+                            "<a data-tab-name=\"{0}-{1}-tab\" href=\"#{0}-{1}-tab\" data-toggle=\"tab\">{2}</a>",
+                            name, "standard", "Standard"));
                     tabStrip.AppendLine("</li>");
 
                     foreach (var locale in helper.ViewData.Model.Locales)
@@ -83,19 +65,17 @@ namespace Nop.Web.Framework
                         var iconUrl = urlHelper.Content("~/Content/images/flags/" + language.FlagImageFileName);
                         tabStrip.AppendLine(
                             string.Format(
-                                "<a data-tab-name=\"{0}-localized-tab\" href=\"#{0}-localized-tab\" data-toggle=\"tab\"><img alt='' src='{1}'>{2}</a>",
-                                HttpUtility.HtmlEncode(language.Name).ToLower(), iconUrl,
+                                "<a data-tab-name=\"{0}-{1}-tab\" href=\"#{0}-{1}-tab\" data-toggle=\"tab\"><img alt='' src='{2}'>{3}</a>",
+                                name, HttpUtility.HtmlEncode(language.Name).ToLower(), iconUrl,
                                 HttpUtility.HtmlEncode(language.Name)));
 
                         tabStrip.AppendLine("</li>");
                     }
                     tabStrip.AppendLine("</ul>");
-
-
-
+                    
                     //default tab
                     tabStrip.AppendLine("<div class=\"tab-content\">");
-                    tabStrip.AppendLine("<div class=\"tab-pane active\" id=\"standard-localized-tab\">");
+                    tabStrip.AppendLine(string.Format("<div class=\"tab-pane active\" id=\"{0}-{1}-tab\">", name, "standard"));
                     tabStrip.AppendLine(standardTemplate(helper.ViewData.Model).ToHtmlString());
                     tabStrip.AppendLine("</div>");
 
@@ -106,8 +86,8 @@ namespace Nop.Web.Framework
                             EngineContext.Current.Resolve<ILanguageService>()
                                 .GetLanguageById(helper.ViewData.Model.Locales[i].LanguageId);
 
-                        tabStrip.AppendLine(string.Format("<div class=\"tab-pane\" id=\"{0}-localized-tab\">",
-                            HttpUtility.HtmlEncode(language.Name).ToLower()));
+                        tabStrip.AppendLine(string.Format("<div class=\"tab-pane\" id=\"{0}-{1}-tab\">",
+                                            name, HttpUtility.HtmlEncode(language.Name).ToLower()));
                         tabStrip.AppendLine(localizedTemplate(i).ToHtmlString());
                         tabStrip.AppendLine("</div>");
                     }
@@ -331,6 +311,24 @@ namespace Nop.Web.Framework
 
         #region Form fields
 
+        public static MvcHtmlString Hint(this HtmlHelper helper, string value)
+        {
+            // Create tag builder
+            var builder = new TagBuilder("img");
+
+            // Add attributes
+            var urlHelper = new UrlHelper(helper.ViewContext.RequestContext);
+            var url = MvcHtmlString.Create(urlHelper.Content("~/Administration/Content/images/ico-help.gif")).ToHtmlString();
+
+            builder.MergeAttribute("src", url);
+            builder.MergeAttribute("alt", value);
+            builder.MergeAttribute("title", value);
+            builder.MergeAttribute("class", "ico-help");
+
+            // Render tag
+            return MvcHtmlString.Create(builder.ToString());
+        }
+
         public static MvcHtmlString NopLabelFor<TModel, TValue>(this HtmlHelper<TModel> helper,
                 Expression<Func<TModel, TValue>> expression, bool displayHint = true)
         {
@@ -346,9 +344,11 @@ namespace Nop.Web.Framework
                 {
                     var langId = EngineContext.Current.Resolve<IWorkContext>().WorkingLanguage.Id;
                     hintResource = EngineContext.Current.Resolve<ILocalizationService>()
-                        .GetResource(resourceDisplayName.ResourceKey + ".Hint", langId);
-
-                    result.Append(helper.Hint(hintResource).ToHtmlString());
+                        .GetResource(resourceDisplayName.ResourceKey + ".Hint",  langId, returnEmptyIfNotFound: true, logIfNotFound: false);
+                    if (!String.IsNullOrEmpty(hintResource))
+                    {
+                        result.Append(helper.Hint(hintResource).ToHtmlString());
+                    }
                 }
             }
             result.Append(helper.LabelFor(expression, new { title = hintResource, @class = "control-label" }));

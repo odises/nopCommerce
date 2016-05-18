@@ -2,24 +2,22 @@
     //page title
     ViewBag.Title = T("Admin.Configuration.Shipping.Methods").Text;
 }
-@Html.AntiForgeryToken()
 
+@Html.AntiForgeryToken()
 <div class="content-header clearfix">
     <h1 class="pull-left">
         @T("Admin.Configuration.Shipping.Methods")
     </h1>
     <div class="pull-right">
-        <a href="@Url.Action("CreateMethod")" class="btn btn-default">@T("Admin.Common.AddNew")</a>
+        <a href="@Url.Action("CreateMethod")" class="btn bg-blue">@T("Admin.Common.AddNew")</a>
     </div>
 </div>
 
 <div class="content">
     <div class="form-horizontal">
         <div class="panel-group">
-
             <div class="panel panel-default">
                 <div class="panel-body">
-
                     <div id="shippingmethod-grid"></div>
 
                     <script>

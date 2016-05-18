@@ -832,7 +832,10 @@ namespace Nop.Services.Catalog
                             where (p.Name.Contains(keywords)) ||
                                   (searchDescriptions && p.ShortDescription.Contains(keywords)) ||
                                   (searchDescriptions && p.FullDescription.Contains(keywords)) ||
-                                  (searchProductTags && pt.Name.Contains(keywords)) ||
+                                  //sku (exact match)
+                                  (searchSku && p.Sku == keywords) ||
+                                  //product tags (exact match)
+                                  (searchProductTags && pt.Name == keywords) ||
                                   //localized values
                                   (searchLocalizedValue && lp.LanguageId == languageId && lp.LocaleKeyGroup == "Product" && lp.LocaleKey == "Name" && lp.LocaleValue.Contains(keywords)) ||
                                   (searchDescriptions && searchLocalizedValue && lp.LanguageId == languageId && lp.LocaleKeyGroup == "Product" && lp.LocaleKey == "ShortDescription" && lp.LocaleValue.Contains(keywords)) ||
@@ -1876,6 +1879,17 @@ namespace Nop.Services.Catalog
 
             //event notification
             _eventPublisher.EntityUpdated(productPicture);
+        }
+
+        /// <summary>
+        /// Get the IDs of all product images 
+        /// </summary>
+        /// <param name="productsIds">Products IDs</param>
+        /// <returns>All picture identifiers grouped by product ID</returns>
+        public IDictionary<int, int[]> GetProductsImagesIds(int [] productsIds)
+        {
+            return _productPictureRepository.Table.Where(p => productsIds.Contains(p.ProductId))
+                .GroupBy(p => p.ProductId).ToDictionary(p => p.Key, p => p.Select(p1 => p1.PictureId).ToArray());
         }
 
         #endregion

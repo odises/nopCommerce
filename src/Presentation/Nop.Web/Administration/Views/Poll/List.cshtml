@@ -5,14 +5,14 @@
     //page title
     ViewBag.Title = T("Admin.ContentManagement.Polls").Text;
 }
-@Html.AntiForgeryToken()
 
+@Html.AntiForgeryToken()
 <div class="content-header clearfix">
     <h1 class="pull-left">
         @T("Admin.ContentManagement.Polls")
     </h1>
     <div class="pull-right">
-        <a href="@Url.Action("Create")" class="btn btn-default">@T("Admin.Common.AddNew")</a>
+        <a href="@Url.Action("Create")" class="btn bg-blue">@T("Admin.Common.AddNew")</a>
     </div>
 </div>
 
@@ -21,7 +21,6 @@
         <div class="panel-group">
             <div class="panel panel-default">
                 <div class="panel-body">
-
                     <div id="polls-grid"></div>
 
                     <script>

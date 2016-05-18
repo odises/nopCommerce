@@ -1,8 +1,10 @@
 ﻿@model LanguageModel
+
 @{
     //page title
     ViewBag.Title = T("Admin.Configuration.Languages.EditLanguageDetails").Text;
 }
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -23,7 +25,6 @@
 }
 @Html.DeleteConfirmation("language-delete")
 
-
 @*import resources form*@
 <div id="importxml-window" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="importxml-window-title">
     <div class="modal-dialog">
@@ -43,12 +44,12 @@
                         <br />
                         <br />
                         <div class="form-group">
-                            <div class="col-sm-2">
+                            <div class="col-md-2">
                                 <label class="control-label">
                                     @T("Admin.Configuration.Languages.XmlFile")
                                 </label>
                             </div>
-                            <div class="col-sm-10">
+                            <div class="col-md-10">
                                 <input type="file" id="importxmlfile" name="importxmlfile" class="form-control" />
                             </div>
                         </div>

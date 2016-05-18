@@ -1,4 +1,5 @@
 ﻿@model CountryReportModel
+
 @{
     //page title
     ViewBag.Title = T("Admin.SalesReport.Country").Text;
@@ -13,48 +14,46 @@
         &nbsp;
     </div>
 </div>
+
 <div class="content">
     <div class="form-horizontal">
         <div class="panel-group">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group">
-                        <div class="col-sm-3">
+                        <div class="col-md-3">
                             @Html.NopLabelFor(model => model.StartDate)
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-md-9">
                             @Html.NopEditorFor(model => model.StartDate)
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-3">
+                        <div class="col-md-3">
                             @Html.NopLabelFor(model => model.EndDate)
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-md-9">
                             @Html.NopEditorFor(model => model.EndDate)
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-3">
+                        <div class="col-md-3">
                             @Html.NopLabelFor(model => model.OrderStatusId)
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-md-9">
                             @Html.NopDropDownList("OrderStatusId", Model.AvailableOrderStatuses)
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-3">
+                        <div class="col-md-3">
                             @Html.NopLabelFor(model => model.PaymentStatusId)
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-md-9">
                             @Html.NopDropDownList("PaymentStatusId", Model.AvailablePaymentStatuses)
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-3">
-                            &nbsp;
-                        </div>
-                        <div class="col-sm-9">
+                        <div class="col-md-9 col-md-offset-3">
                             <input type="button" id="search-countryreport" class="btn btn-default" value="@T("Admin.SalesReport.Country.RunReport")"/>
                         </div>
                     </div>
@@ -114,15 +113,12 @@
                     </script>
 
                     <script type="text/javascript">
-
                         $(document).ready(function () {
-
                             $('#search-countryreport').click(function () {
                                 var grid = $('#countryreport-grid').data('kendoGrid');
                                 grid.dataSource.read();
                                 return false;
                             });
-
                         });
 
                         function additionalData() {
@@ -135,7 +131,6 @@
                             addAntiForgeryToken(data);
                             return data;
                         }
-
                     </script>
                 </div>
             </div>

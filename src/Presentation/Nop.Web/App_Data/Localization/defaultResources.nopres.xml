@@ -1851,9 +1851,6 @@
   <LocaleResource Name="Admin.Catalog.Categories.SwitchToListView">
     <Value>switch to list view</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Catalog.Categories.SwitchToTreeView">
-    <Value>switch to tree view</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Categories.Updated">
     <Value>The category has been updated successfully.</Value>
   </LocaleResource>
@@ -3569,9 +3566,6 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Standard">
     <Value>Standard</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Common.Treeview">
-    <Value>Tree view</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Common.Update">
     <Value>Update</Value>
@@ -5430,6 +5424,12 @@
   <LocaleResource Name="Admin.Configuration.Settings.Forums.AllowGuestsToCreateTopics.Hint">
     <Value>Set if you want to allow guests to create topics.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Forums.AllowPostVoting">
+    <Value>Allow users to vote for posts</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Forums.AllowPostVoting.Hint">
+    <Value>Set if you want to allow users to vote for posts.</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.Forums.AllowPrivateMessages">
     <Value>Allow private messages</Value>
   </LocaleResource>
@@ -5459,6 +5459,12 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.Forums.ForumsEnabled.Hint">
     <Value>Check to enable forums.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Forums.MaxVotesPerDay">
+    <Value>Maximum votes per day</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Forums.MaxVotesPerDay.Hint">
+    <Value>Maximum number of votes for user per day.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.Forums.NotifyAboutPrivateMessages">
     <Value>Notify about private messages</Value>
@@ -5925,6 +5931,12 @@
   <LocaleResource Name="Admin.Configuration.Settings.Media.DefaultImageQuality.Hint">
     <Value>The image quality to be used for uploaded images. Once changed you have to manually delete already generated thumbs.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Media.ImportProductImagesUsingHash">
+    <Value>Import product images using hash</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Media.ImportProductImagesUsingHash.Hint">
+    <Value>Check to use fast HASHBYTES (hash sum) database function to compare pictures when importing products. Please note that this functionality is not supported by some database.</Value>
+  </LocaleResource>  
   <LocaleResource Name="Admin.Configuration.Settings.Media.ManufacturerThumbPictureSize">
     <Value>Manufacturer thumbnail image size</Value>
   </LocaleResource>
@@ -6265,13 +6277,13 @@
     <Value>Earning Reward Points</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.Earning.Hint1">
-    <Value>Each.</Value>
+    <Value>Each</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.Earning.Hint2">
-    <Value>spent will earn.</Value>
+    <Value>spent will earn</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.Earning.Hint3">
-    <Value>reward points.</Value>
+    <Value>reward points</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.Enabled">
     <Value>Enabled</Value>
@@ -6286,7 +6298,7 @@
     <Value>Specify reward points exchange rate.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.ExchangeRate.Hint2">
-    <Value>1 reward point =.</Value>
+    <Value>1 reward point =</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.MinimumRewardPointsToUse">
     <Value>Minimum reward points to use</Value>
@@ -11136,6 +11148,12 @@
   <LocaleResource Name="Admin.System.SystemInfo.ASPNETInfo.Hint">
     <Value>ASP.NET info.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.CurrentUserTime">
+    <Value>Current user time</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.CurrentUserTime.Hint">
+    <Value>Current user time (based on specified datetime and timezone settings).</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.System.SystemInfo.HTTPHOST">
     <Value>HTTP_HOST</Value>
   </LocaleResource>
@@ -11185,10 +11203,10 @@
     <Value>A list of server variables.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.System.SystemInfo.UTCTime">
-    <Value>Greenwich Mean Time (GMT/UTC)</Value>
+    <Value>Coordinated Universal Time (UTC)</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.System.SystemInfo.UTCTime.Hint">
-    <Value>Greenwich Mean Time (GMT/UTC).</Value>
+    <Value>Coordinated Universal Time (UTC).</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.System.Templates">
     <Value>Templates</Value>
@@ -12785,6 +12803,21 @@
   </LocaleResource>
   <LocaleResource Name="Forum.UnwatchTopic">
     <Value>Unwatch Topic</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Votes">
+    <Value>Votes</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Votes.AlreadyVoted">
+    <Value>You already voted for this post</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Votes.Login">
+    <Value>You need to log in to vote for post</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Votes.MaxVotesReached">
+    <Value>A maximum of {0} votes can be cast per user per day</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Votes.OwnPost">
+    <Value>You cannot vote for your own post</Value>
   </LocaleResource>
   <LocaleResource Name="Forum.Views">
     <Value>Views</Value>

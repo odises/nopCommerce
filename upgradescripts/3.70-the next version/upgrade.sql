@@ -422,6 +422,69 @@ set @resources='
   <LocaleResource Name="Admin.Customers.Customers.ActivityLog.IpAddress.Hint">
     <Value>The IP address for the search.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Forums.AllowPostVoting">
+    <Value>Allow users to vote for posts</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Forums.AllowPostVoting.Hint">
+    <Value>Set if you want to allow users to vote for posts.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Forums.MaxVotesPerDay">
+    <Value>Maximum votes per day</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Forums.MaxVotesPerDay.Hint">
+    <Value>Maximum number of votes for user per day.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Votes">
+    <Value>Votes</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Votes.AlreadyVoted">
+    <Value>You already voted for this post</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Votes.Login">
+    <Value>You need to log in to vote for post</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Votes.MaxVotesReached">
+    <Value>A maximum of {0} votes can be cast per user per day</Value>
+  </LocaleResource>
+  <LocaleResource Name="Forum.Votes.OwnPost">
+    <Value>You cannot vote for your own post</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Media.ImportProductImagesUsingHash">
+    <Value>Import product images using hash</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.Media.ImportProductImagesUsingHash.Hint">
+    <Value>Check to use fast HASHBYTES (hash sum) database function to compare pictures when importing products. Please note that this functionality is not supported by some database.</Value>
+  </LocaleResource> 
+  <LocaleResource Name="Admin.System.SystemInfo.UTCTime">
+    <Value>Coordinated Universal Time (UTC)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.UTCTime.Hint">
+    <Value>Coordinated Universal Time (UTC).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.CurrentUserTime">
+    <Value>Current user time</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.CurrentUserTime.Hint">
+    <Value>Current user time (based on specified datetime and timezone settings).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.Earning.Hint1">
+    <Value>Each</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.Earning.Hint2">
+    <Value>spent will earn</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.Earning.Hint3">
+    <Value>reward points</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.ExchangeRate.Hint2">
+    <Value>1 reward point =</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Categories.SwitchToTreeView">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Treeview">
+    <Value></Value>
+  </LocaleResource>
 </Language>
 '
 
@@ -556,6 +619,14 @@ IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'mediasettings.imagesquar
 BEGIN
 	INSERT [Setting] ([Name], [Value], [StoreId])
 	VALUES (N'mediasettings.imagesquarepicturesize', N'32', 0)
+END
+GO
+
+--new setting
+IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'mediasettings.importproductimagesusinghash')
+BEGIN
+	INSERT [Setting] ([Name], [Value], [StoreId])
+	VALUES (N'mediasettings.importproductimagesusinghash', N'true', 0)
 END
 GO
 
@@ -820,6 +891,7 @@ BEGIN
 
 	DECLARE
 		@SearchKeywords bit,
+		@OriginalKeywords nvarchar(4000),
 		@sql nvarchar(max),
 		@sql_orderby nvarchar(max)
 
@@ -828,6 +900,7 @@ BEGIN
 	--filter by keywords
 	SET @Keywords = isnull(@Keywords, '')
 	SET @Keywords = rtrim(ltrim(@Keywords))
+	SET @OriginalKeywords = @Keywords
 	IF ISNULL(@Keywords, '') != ''
 	BEGIN
 		SET @SearchKeywords = 1
@@ -987,30 +1060,26 @@ BEGIN
 				SET @sql = @sql + ' AND PATINDEX(@Keywords, lp.[LocaleValue]) > 0 '
 		END
 
-		--SKU
+		--SKU (exact match)
 		IF @SearchSku = 1
 		BEGIN
 			SET @sql = @sql + '
 			UNION
 			SELECT p.Id
 			FROM Product p with (NOLOCK)
-			WHERE PATINDEX(@Keywords, p.[Sku]) > 0 '
+			WHERE p.[Sku] = @OriginalKeywords '
 		END
 
 		IF @SearchProductTags = 1
 		BEGIN
-			--product tag
+			--product tags (exact match)
 			SET @sql = @sql + '
 			UNION
 			SELECT pptm.Product_Id
 			FROM Product_ProductTag_Mapping pptm with(NOLOCK) INNER JOIN ProductTag pt with(NOLOCK) ON pt.Id = pptm.ProductTag_Id
-			WHERE '
-			IF @UseFullTextSearch = 1
-				SET @sql = @sql + 'CONTAINS(pt.[Name], @Keywords) '
-			ELSE
-				SET @sql = @sql + 'PATINDEX(@Keywords, pt.[Name]) > 0 '
+			WHERE pt.[Name] = @OriginalKeywords '
 
-			--localized product tag
+			--localized product tags
 			SET @sql = @sql + '
 			UNION
 			SELECT pptm.Product_Id
@@ -1018,15 +1087,12 @@ BEGIN
 			WHERE
 				lp.LocaleKeyGroup = N''ProductTag''
 				AND lp.LanguageId = ' + ISNULL(CAST(@LanguageId AS nvarchar(max)), '0') + '
-				AND lp.LocaleKey = N''Name'''
-			IF @UseFullTextSearch = 1
-				SET @sql = @sql + ' AND CONTAINS(lp.[LocaleValue], @Keywords) '
-			ELSE
-				SET @sql = @sql + ' AND PATINDEX(@Keywords, lp.[LocaleValue]) > 0 '
+				AND lp.LocaleKey = N''Name''
+				AND lp.[LocaleValue] = @OriginalKeywords '
 		END
 
 		--PRINT (@sql)
-		EXEC sp_executesql @sql, N'@Keywords nvarchar(4000)', @Keywords
+		EXEC sp_executesql @sql, N'@Keywords nvarchar(4000), @OriginalKeywords nvarchar(4000)', @Keywords, @OriginalKeywords
 
 	END
 	ELSE
@@ -1484,3 +1550,64 @@ BEGIN
 	VALUES (N'Impersonation.Finished', N'Customer impersonation session. Finished', N'true')
 END
 GO
+
+ --new table
+IF NOT EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Forums_PostVote]') and OBJECTPROPERTY(object_id, N'IsUserTable') = 1)
+BEGIN
+	CREATE TABLE [dbo].[Forums_PostVote](
+		[Id] [int] IDENTITY(1,1) NOT NULL,
+		[ForumPostId] [int] NOT NULL,
+        [CustomerId] [int] NOT NULL,
+		[IsUp] [bit] NOT NULL,
+		[CreatedOnUtc] [datetime] NOT NULL
+		PRIMARY KEY CLUSTERED 
+		(
+			[Id] ASC
+		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)
+	)
+END
+GO
+
+IF EXISTS (SELECT 1 FROM sys.objects WHERE name = 'Forums_PostVote_Forums_Post' AND parent_object_id = Object_id('Forums_PostVote') AND Objectproperty(object_id, N'IsForeignKey') = 1)
+BEGIN
+    ALTER TABLE dbo.Forums_PostVote
+    DROP CONSTRAINT Forums_PostVote_Forums_Post
+END
+GO
+
+ALTER TABLE [dbo].[Forums_PostVote] WITH CHECK ADD CONSTRAINT [Forums_PostVote_Forums_Post] FOREIGN KEY([ForumPostId])
+REFERENCES [dbo].[Forums_Post] ([Id])
+ON DELETE CASCADE
+GO
+
+ --new column
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=object_id('[Forums_Post]') and NAME='VoteCount')
+BEGIN
+	ALTER TABLE [Forums_Post]
+	ADD [VoteCount] int NULL
+END
+GO
+
+UPDATE [Forums_Post]
+SET [VoteCount] = 0
+WHERE [VoteCount] IS NULL
+GO
+
+ALTER TABLE [Forums_Post] ALTER COLUMN [VoteCount] int NOT NULL
+GO
+
+--new setting
+ IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'forumsettings.allowpostvoting')
+ BEGIN
+ 	INSERT [Setting] ([Name], [Value], [StoreId])
+ 	VALUES (N'forumsettings.allowpostvoting', N'True', 0)
+ END
+ GO
+
+ --new setting
+ IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'forumsettings.maxvotesperday')
+ BEGIN
+ 	INSERT [Setting] ([Name], [Value], [StoreId])
+ 	VALUES (N'forumsettings.maxvotesperday', N'30', 0)
+ END
+ GO
