@@ -2917,7 +2917,7 @@
     <Value>Search by a specific category.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.List.SearchIncludeSubCategories">
-    <Value>Automatically search sub categories</Value>
+    <Value>Search sub categories</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.List.SearchIncludeSubCategories.Hint">
     <Value>Check to search in sub categories.</Value>
@@ -9519,13 +9519,16 @@
   <LocaleResource Name="Admin.Orders.PdfInvoice">
     <Value>Invoice (PDF)</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Orders.PdfInvoice.All">
-    <Value>Print PDF invoices (all found)</Value>
-  </LocaleResource>
   <LocaleResource Name="Admin.Orders.PdfInvoice.NoOrders">
     <Value>No orders selected</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Orders.PdfInvoice.Selected">
+  <LocaleResource Name="Admin.Orders.PdfInvoices">
+    <Value>Print PDF invoices</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoices.All">
+    <Value>Print PDF invoices (all found)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoices.Selected">
     <Value>Print PDF invoices (selected)</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Orders.Products">
@@ -9542,12 +9545,6 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Orders.Products.AddNew.Name">
     <Value>Name</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Orders.Products.AddNew.Note1">
-    <Value>Click on interested product</Value>
-  </LocaleResource>
-  <LocaleResource Name="Admin.Orders.Products.AddNew.Note2">
-    <Value>Do not to forget to update order totals after adding this product.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Orders.Products.AddNew.Quantity">
     <Value>Quantity</Value>
@@ -9587,6 +9584,9 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Orders.Products.AddNew.UnitPriceInclTax.Hint">
     <Value>Enter product price (incl tax).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Products.AddNew.UpdateTotals">
+    <Value>Do not to forget to update order totals after adding this product.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Orders.Products.Discount">
     <Value>Discount</Value>
@@ -9783,10 +9783,13 @@
   <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlip">
     <Value>Print packaging slip</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlip.All">
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlips">
+    <Value>Print packaging slips</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlips.All">
     <Value>Print packaging slips (all found)</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlip.Selected">
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlips.Selected">
     <Value>Print packaging slips (selected)</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Orders.Shipments.Products">

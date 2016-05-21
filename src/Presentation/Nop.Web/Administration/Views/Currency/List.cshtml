@@ -14,7 +14,7 @@
             @T("Admin.Configuration.Currencies")
         </h1>
         <div class="pull-right">
-            <input type="submit" name="save" class="btn bg-light-blue" value="@T("Admin.Common.Save")"/>
+            <input type="submit" name="save" class="btn btn-primary" value="@T("Admin.Common.Save")"/>
             <a href="@Url.Action("List", "Currency", new {liveRates = true})" class="btn bg-green">@T("Admin.Configuration.Currencies.GetLiveRates")</a>
             <a href="@Url.Action("Create")" class="btn bg-blue">@T("Admin.Common.AddNew")</a>
         </div>
@@ -96,7 +96,7 @@
                                         }, {
                                             field: "CurrencyCode",
                                             title: "@T("Admin.Configuration.Currencies.Fields.CurrencyCode")",
-                                            width: 100
+                                            width: 150
                                         }, {
                                             field: "Rate",
                                             title: "@T("Admin.Configuration.Currencies.Fields.Rate")",
@@ -104,7 +104,7 @@
                                         }, {
                                             field: "IsPrimaryExchangeRateCurrency",
                                             title: "@T("Admin.Configuration.Currencies.Fields.IsPrimaryExchangeRateCurrency")",
-                                            width: 100,
+                                            width: 250,
                                             headerAttributes: { style: "text-align:center" },
                                             attributes: { style: "text-align:center" },
                                             template: '<img src="@Url.Content("~/Administration/Content/images/")active-#=IsPrimaryExchangeRateCurrency#.gif" />'
@@ -112,11 +112,11 @@
                                             field: "Id",
                                             title: "@T("Admin.Configuration.Currencies.Fields.MarkAsPrimaryExchangeRateCurrency")",
                                             width: 200,
-                                            template: '<a onclick="markAsPrimaryExchangeRateCurrency(#=Id#)" class="btn btn-default">@T("Admin.Configuration.Currencies.Fields.MarkAsPrimaryExchangeRateCurrency")</a>'
+                                            template: '<a onclick="markAsPrimaryExchangeRateCurrency(#=Id#)" class="btn bg-green">@T("Admin.Configuration.Currencies.Fields.MarkAsPrimaryExchangeRateCurrency")</a>'
                                         }, {
                                             field: "IsPrimaryStoreCurrency",
                                             title: "@T("Admin.Configuration.Currencies.Fields.IsPrimaryStoreCurrency")",
-                                            width: 100,
+                                            width: 200,
                                             headerAttributes: { style: "text-align:center" },
                                             attributes: { style: "text-align:center" },
                                             template: '<img src="@Url.Content("~/Administration/Content/images/")active-#=IsPrimaryStoreCurrency#.gif" />'
@@ -124,11 +124,11 @@
                                             field: "Id",
                                             title: "@T("Admin.Configuration.Currencies.Fields.MarkAsPrimaryStoreCurrency")",
                                             width: 200,
-                                            template: '<a onclick="markAsPrimaryStoreCurrency(#=Id#)" class="btn btn-default">@T("Admin.Configuration.Currencies.Fields.MarkAsPrimaryStoreCurrency")</a>'
+                                            template: '<a onclick="markAsPrimaryStoreCurrency(#=Id#)" class="btn bg-olive">@T("Admin.Configuration.Currencies.Fields.MarkAsPrimaryStoreCurrency")</a>'
                                         }, {
                                             field: "Published",
                                             title: "@T("Admin.Configuration.Currencies.Fields.Published")",
-                                            width: 100,
+                                            width: 50,
                                             headerAttributes: { style: "text-align:center" },
                                             attributes: { style: "text-align:center" },
                                             template: '<img src="@Url.Content("~/Administration/Content/images/")active-#=Published#.gif" />'
@@ -200,7 +200,7 @@
                             @T("Admin.Configuration.Currencies.LiveRates")
                         </div>
                         <div class="panel-body">
-                            <div id="rate-grid"></div>
+                            <div id="rate-grid" style="max-width: 350px;"></div>
 
                             <script>
                                 $(document).ready(function () {
@@ -240,7 +240,7 @@
                                             }, {
                                                 field: "CurrencyCode",
                                                 title: "@T("Admin.Configuration.Currencies.ApplyRate")",
-                                                template: '<a onclick="applyCurrencyRate(\'#=Rate#\', \'#=CurrencyCode#\')" class="btn btn-default">@T("Admin.Configuration.Currencies.ApplyRate")</a>'
+                                                template: '<a onclick="applyCurrencyRate(\'#=Rate#\', \'#=CurrencyCode#\')" class="btn bg-olive">@T("Admin.Configuration.Currencies.ApplyRate")</a>'
                                             }
                                         ]
                                     });

@@ -485,6 +485,51 @@ set @resources='
   <LocaleResource Name="Admin.Common.Treeview">
     <Value></Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Products.AddNew.Note1">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Products.AddNew.Note2">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Products.AddNew.UpdateTotals">
+    <Value>Do not to forget to update order totals after adding this product.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Products.List.SearchIncludeSubCategories">
+    <Value>Search sub categories</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Export">
+    <Value>Export</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoices">
+    <Value>Print PDF invoices</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoices.All">
+    <Value>Print PDF invoices (all found)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoices.Selected">
+    <Value>Print PDF invoices (selected)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoice.All">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoice.Selected">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlips">
+    <Value>Print packaging slips</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlips.All">
+    <Value>Print packaging slips (all found)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlips.Selected">
+    <Value>Print packaging slips (selected)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlip.All">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlip.Selected">
+    <Value></Value>
+  </LocaleResource>
 </Language>
 '
 
