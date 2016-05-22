@@ -3,7 +3,7 @@
 @{
     var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
     var gridPageSizes = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
-    
+
     //page title
     ViewBag.Title = T("Admin.Orders.Shipments.List").Text;
 }
@@ -16,84 +16,97 @@
             @T("Admin.Orders.Shipments.List")
         </h1>
         <div class="pull-right">
-            <input type="submit" name="exportpackagingslips-all" class="btn btn-default" value="@T("Admin.Orders.Shipments.PrintPackagingSlip.All")" />
-            <input type="button" id="exportpackagingslips-selected" class="btn btn-default" value="@T("Admin.Orders.Shipments.PrintPackagingSlip.Selected")" />
-            <input type="button" id="ship-selected" class="btn btn-default" value="@T("Admin.Orders.Shipments.ShipSelected")" />
-            <input type="button" id="deliver-selected" class="btn btn-default" value="@T("Admin.Orders.Shipments.DeliverySelected")" />
+            <div class="btn-group">
+                <button type="button" class="btn bg-purple">@T("Admin.Orders.Shipments.PrintPackagingSlips")</button>
+                <button type="button" class="btn bg-purple dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">&nbsp;</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><input type="submit" name="exportpackagingslips-all" value="@T("Admin.Orders.Shipments.PrintPackagingSlips.All")" /></li>
+                    <li><input type="button" id="exportpackagingslips-selected" value="@T("Admin.Orders.Shipments.PrintPackagingSlips.Selected")" /></li>
+                </ul>
+            </div>
+            <input type="button" id="ship-selected" class="btn bg-aqua" value="@T("Admin.Orders.Shipments.ShipSelected")"/>
+            <input type="button" id="deliver-selected" class="btn bg-green" value="@T("Admin.Orders.Shipments.DeliverySelected")"/>
         </div>
     </div>
     <div class="content">
         <div class="form-horizontal">
             <div class="panel-group">
-                <div class="panel panel-default">
+                <div class="panel panel-default panel-search">
                     <div class="panel-body">
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                @Html.NopLabelFor(model => model.StartDate)
-                            </div>
-                            <div class="col-md-9">
-                                @Html.NopEditorFor(model => model.StartDate)
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                @Html.NopLabelFor(model => model.EndDate)
-                            </div>
-                            <div class="col-md-9">
-                                @Html.NopEditorFor(model => model.EndDate)
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                @Html.NopLabelFor(model => model.TrackingNumber)
-                            </div>
-                            <div class="col-md-9">
-                                @Html.NopEditorFor(model => model.TrackingNumber)
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                @Html.NopLabelFor(model => model.CountryId)
-                            </div>
-                            <div class="col-md-9">
-                                @Html.NopDropDownListFor(model => model.CountryId, Model.AvailableCountries)
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                @Html.NopLabelFor(model => model.StateProvinceId)
-                            </div>
-                            <div class="col-md-9">
-                                @Html.NopDropDownListFor(model => model.StateProvinceId, Model.AvailableStates)
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                @Html.NopLabelFor(model => model.City)
-                            </div>
-                            <div class="col-md-9">
-                                @Html.NopEditorFor(model => model.City)
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                @Html.NopLabelFor(model => model.WarehouseId)
-                            </div>
-                            <div class="col-md-9">
-                                @Html.NopDropDownList("WarehouseId", Model.AvailableWarehouses)
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                @Html.NopLabelFor(model => model.LoadNotShipped)
-                            </div>
-                            <div class="col-md-9">
-                                @Html.NopEditorFor(model => model.LoadNotShipped)
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-9 col-md-offset-3">
-                                <input type="button" id="search-shipments" class="btn btn-default" value="@T("Admin.Common.Search")" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.NopLabelFor(model => model.StartDate)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.NopEditorFor(model => model.StartDate)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.NopLabelFor(model => model.EndDate)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.NopEditorFor(model => model.EndDate)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.NopLabelFor(model => model.TrackingNumber)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.NopEditorFor(model => model.TrackingNumber)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.NopLabelFor(model => model.CountryId)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.NopDropDownListFor(model => model.CountryId, Model.AvailableCountries)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.NopLabelFor(model => model.StateProvinceId)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.NopDropDownListFor(model => model.StateProvinceId, Model.AvailableStates)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.NopLabelFor(model => model.City)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.NopEditorFor(model => model.City)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.NopLabelFor(model => model.WarehouseId)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.NopDropDownList("WarehouseId", Model.AvailableWarehouses)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.NopLabelFor(model => model.LoadNotShipped)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.NopEditorFor(model => model.LoadNotShipped)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-8 col-md-offset-4">
+                                        <input type="button" id="search-shipments" class="btn btn-primary btn-search" value="@T("Admin.Common.Search")" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -345,7 +358,7 @@
                             });
                             return false;
                         });
-                        
+
                         $('#mastercheckbox').click(function() {
                             $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
                         });

@@ -12,7 +12,7 @@
         @T("Admin.ContentManagement.Polls")
     </h1>
     <div class="pull-right">
-        <a href="@Url.Action("Create")" class="btn btn-default">@T("Admin.Common.AddNew")</a>
+        <a href="@Url.Action("Create")" class="btn bg-blue">@T("Admin.Common.AddNew")</a>
     </div>
 </div>
 
@@ -81,7 +81,7 @@
                                 }, {
                                     field: "ShowOnHomePage",
                                     title: "@T("Admin.ContentManagement.Polls.Fields.ShowOnHomePage")",
-                                    width: 100,
+                                    width: 150,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
                                     template: '<img src="@Url.Content("~/Administration/Content/images/")active-#=ShowOnHomePage#.gif" />'

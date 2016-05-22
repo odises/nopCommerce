@@ -9,7 +9,7 @@
         @T("Admin.Configuration.EmailAccounts")
     </h1>
     <div class="pull-right">
-        <a href="@Url.Action("Create")" class="btn btn-default">@T("Admin.Common.AddNew")</a>
+        <a href="@Url.Action("Create")" class="btn bg-blue">@T("Admin.Common.AddNew")</a>
     </div>
 </div>
 
@@ -65,18 +65,19 @@
                                     title: "@T("Admin.Configuration.EmailAccounts.Fields.Email")"
                                 }, {
                                     field: "DisplayName",
-                                    title: "@T("Admin.Configuration.EmailAccounts.Fields.DisplayName")"
+                                    title: "@T("Admin.Configuration.EmailAccounts.Fields.DisplayName")",
+                                    width: 200
                                 }, {
                                     field: "IsDefaultEmailAccount",
                                     title: "@T("Admin.Configuration.EmailAccounts.Fields.IsDefaultEmailAccount")",
-                                    width: 100,
+                                    width: 200,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
                                     template: '<img src="@Url.Content("~/Administration/Content/images/")active-#=IsDefaultEmailAccount#.gif" />'
                                 }, {
                                     field: "Id",
                                     title: "@T("Admin.Configuration.EmailAccounts.Fields.MarkAsDefaultEmail")",
-                                    template: '<a href="@Url.Content("~/Admin/EmailAccount/MarkAsDefaultEmail/")#=Id#" class="btn btn-default">@T("Admin.Configuration.EmailAccounts.Fields.MarkAsDefaultEmail")</a>'
+                                    template: '<a href="@Url.Content("~/Admin/EmailAccount/MarkAsDefaultEmail/")#=Id#" class="btn bg-green">@T("Admin.Configuration.EmailAccounts.Fields.MarkAsDefaultEmail")</a>'
                                 }, {
                                     field: "Id",
                                     title: "@T("Admin.Common.Edit")",

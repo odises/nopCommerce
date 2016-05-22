@@ -454,7 +454,82 @@ set @resources='
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.Media.ImportProductImagesUsingHash.Hint">
     <Value>Check to use fast HASHBYTES (hash sum) database function to compare pictures when importing products. Please note that this functionality is not supported by some database.</Value>
-  </LocaleResource>  
+  </LocaleResource> 
+  <LocaleResource Name="Admin.System.SystemInfo.UTCTime">
+    <Value>Coordinated Universal Time (UTC)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.UTCTime.Hint">
+    <Value>Coordinated Universal Time (UTC).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.CurrentUserTime">
+    <Value>Current user time</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.CurrentUserTime.Hint">
+    <Value>Current user time (based on specified datetime and timezone settings).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.Earning.Hint1">
+    <Value>Each</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.Earning.Hint2">
+    <Value>spent will earn</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.Earning.Hint3">
+    <Value>reward points</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.RewardPoints.ExchangeRate.Hint2">
+    <Value>1 reward point =</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Categories.SwitchToTreeView">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Treeview">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Products.AddNew.Note1">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Products.AddNew.Note2">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Products.AddNew.UpdateTotals">
+    <Value>Do not to forget to update order totals after adding this product.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Products.List.SearchIncludeSubCategories">
+    <Value>Search sub categories</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Export">
+    <Value>Export</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoices">
+    <Value>Print PDF invoices</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoices.All">
+    <Value>Print PDF invoices (all found)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoices.Selected">
+    <Value>Print PDF invoices (selected)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoice.All">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.PdfInvoice.Selected">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlips">
+    <Value>Print packaging slips</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlips.All">
+    <Value>Print packaging slips (all found)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlips.Selected">
+    <Value>Print packaging slips (selected)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlip.All">
+    <Value></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Orders.Shipments.PrintPackagingSlip.Selected">
+    <Value></Value>
+  </LocaleResource>
 </Language>
 '
 
