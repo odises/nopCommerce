@@ -6,6 +6,8 @@
 
     //page title
     ViewBag.Title = T("Admin.Catalog.ProductReviews").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Product reviews");
 }
 
 @Html.AntiForgeryToken()
@@ -14,9 +16,18 @@
         @T("Admin.Catalog.ProductReviews")
     </h1>
     <div class="pull-right">
-        <input type="button" id="approve-selected" class="btn bg-green" value="@T("Admin.Catalog.ProductReviews.ApproveSelected")" />
-        <input type="button" id="disapprove-selected" class="btn bg-navy" value="@T("Admin.Catalog.ProductReviews.DisapproveSelected")" />
-        <input type="button" id="delete-selected" class="btn bg-red" value="@T("Admin.Catalog.ProductReviews.DeleteSelected")" />
+        <button type="button" id="approve-selected" class="btn bg-green">
+            <i class="fa fa-check-square-o"></i>
+            @T("Admin.Catalog.ProductReviews.ApproveSelected")
+        </button>
+        <button type="button" id="disapprove-selected" class="btn bg-navy">
+            <i class="fa fa-minus-square-o"></i>
+            @T("Admin.Catalog.ProductReviews.DisapproveSelected")
+        </button>
+        <button type="button" id="delete-selected" class="btn bg-red">
+            <i class="fa fa-trash-o"></i>
+            @T("Admin.Catalog.ProductReviews.DeleteSelected")
+        </button>
     </div>
 </div>
 
@@ -74,7 +85,7 @@
                                     </script>
 
                                     <span id="search-product-friendly-name"></span>
-                                    <input type="button" id="search-product-clear" class="btn bg-gray" style="display: none; margin-top: 5px;" value="@T("Admin.Common.Clear")"/>
+                                    <button type="button" id="search-product-clear" class="btn bg-gray" style="display: none; margin-top: 5px;">@T("Admin.Common.Clear")</button>
                                     @Html.TextBoxFor(model => model.SearchProductId, new {autocomplete = "off", style = "display:none;"})
 
                                     <script>
@@ -98,7 +109,10 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-8 col-md-offset-4">
-                                    <input type="button" id="search-productreviews" class="btn btn-primary btn-search" value="@T("Admin.Common.Search")" />
+                                    <button type="button" id="search-productreviews" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        @T("Admin.Common.Search")
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -186,7 +200,7 @@
                                     width: 100,
                                     headerAttributes: { style: "text-align:center" },
                                     attributes: { style: "text-align:center" },
-                                    template: '<img src="@Url.Content("~/Administration/Content/images/")active-#=IsApproved#.gif" />'
+                                    template: '# if(IsApproved) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
                                 }, {
                                     field: "CreatedOn",
                                     title: "@T("Admin.Catalog.ProductReviews.Fields.CreatedOn")",

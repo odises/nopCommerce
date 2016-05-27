@@ -3,8 +3,7 @@
 @{
     Layout = "~/Administration/Views/Shared/_AdminPopupLayout.cshtml";
 
-    var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
-    var gridPageSizes = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
+    var popGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().PopupGridPageSize;
 
     //page title
     ViewBag.Title = T("Admin.Catalog.Categories.Products.AddNew").Text;
@@ -92,7 +91,10 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <input type="button" id="search-products" class="btn btn-primary btn-search" value="@T("Admin.Common.Search")" />
+                                <button type="button" id="search-products" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -125,14 +127,13 @@
                                             // Cancel the changes
                                             this.cancelChanges();
                                         },
-                                        pageSize: @(defaultGridPageSize),
+                                        pageSize: @(popGridPageSize),
                                         serverPaging: true,
                                         serverFiltering: true,
                                         serverSorting: true
                                     },
                                     pageable: {
-                                        refresh: true,
-                                        pageSizes: [@(gridPageSizes)]
+                                        refresh: true
                                     },
                                     editable: {
                                         confirmation: false,
@@ -156,7 +157,7 @@
                                             width: 100,
                                             headerAttributes: { style: "text-align:center" },
                                             attributes: { style: "text-align:center" },
-                                            template: '<img src="@Url.Content("~/Administration/Content/images/")active-#=Published#.gif" />'
+                                            template: '# if(Published) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
                                         }
                                     ]
                                 });
@@ -213,7 +214,10 @@
                         </script>
                     </div>
                     <div class="panel-footer">
-                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                        <button type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")">
+                            <i class="fa fa-floppy-o"></i>
+                            @T("Admin.Common.Save")
+                        </button>
                     </div>
                 </div>
             </div>

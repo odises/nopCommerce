@@ -7,7 +7,9 @@
     var gridPageSizes = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
 
     //page title
-    ViewBag.Title = T("Admin.Catalog.Products.Manage").Text;
+    ViewBag.Title = T("Admin.Catalog.Products").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Products");
 }
 
 @using (Html.BeginForm())
@@ -15,31 +17,46 @@
     @Html.AntiForgeryToken()
     <div class="content-header clearfix">
         <h1 class="pull-left">
-            @T("Admin.Catalog.Products.Manage")
+            @T("Admin.Catalog.Products")
         </h1>
         <div class="pull-right">
-            <a href="@Url.Action("Create")" class="btn bg-blue">@T("Admin.Common.AddNew")</a>
-            <input type="submit" name="download-catalog-pdf" class="btn bg-purple" value="@T("Admin.Catalog.Products.List.DownloadPDF")"/>
+            <a href="@Url.Action("Create")" class="btn bg-blue">
+                <i class="fa fa-plus-square"></i>
+                @T("Admin.Common.AddNew")
+            </a>
+            <button type="submit" name="download-catalog-pdf" class="btn bg-purple" value="@T("Admin.Catalog.Products.List.DownloadPDF")">
+                <i class="fa fa-download"></i>
+                @T("Admin.Catalog.Products.List.DownloadPDF")
+            </button>
             <div class="btn-group">
-                <button type="button" class="btn btn-success">@T("Admin.Common.Export")</button>
+                <button type="button" class="btn btn-success">
+                    <i class="fa fa-exchange"></i>
+                    @T("Admin.Common.Export")
+                </button>
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <span class="caret"></span>
                     <span class="sr-only">&nbsp;</span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li><input type="submit" name="exportxml-all" value="@T("Admin.Common.ExportToXml.All")" /></li>
-                    <li><input type="button" id="exportxml-selected" value="@T("Admin.Common.ExportToXml.Selected")" /></li>
+                    <li><button type="button" id="exportxml-selected">@T("Admin.Common.ExportToXml.Selected")</button></li>
                     <li class="divider"></li>
                     <li><input type="submit" name="exportexcel-all" value="@T("Admin.Common.ExportToExcel.All")" /></li>
-                    <li><input type="button" id="exportexcel-selected" value="@T("Admin.Common.ExportToExcel.Selected")" /></li>
+                    <li><button type="button" id="exportexcel-selected">@T("Admin.Common.ExportToExcel.Selected")</button></li>
                 </ul>
             </div>
             @if (!Model.IsLoggedInAsVendor)
             {
                 //a vendor cannot import products
-                <input type="button" name="importexcel" class="btn bg-olive" value="@T("Admin.Common.ImportFromExcel")" data-toggle="modal" data-target="#importexcel-window" />
+                <button type="button" name="importexcel" class="btn bg-olive" data-toggle="modal" data-target="#importexcel-window">
+                    <i class="fa fa-exchange"></i>
+                    @T("Admin.Common.Import")
+                </button>
             }
-            <input type="button" id="delete-selected" class="btn bg-red" value="@T("Admin.Common.Delete.Selected")" />
+            <button type="button" id="delete-selected" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                @T("Admin.Common.Delete.Selected")
+            </button>
         </div>
     </div>
 
@@ -141,7 +158,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-7 col-md-offset-5">
-                                <input type="button" id="search-products" class="btn btn-primary btn-search" value="@T("Admin.Common.Search")" />
+                                <button type="button" id="search-products" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -232,7 +252,7 @@
                                             width: 100,
                                             headerAttributes: { style: "text-align:center" },
                                             attributes: { style: "text-align:center" },
-                                            template: '<img src="@Url.Content("~/Administration/Content/images/")active-#=Published#.gif" />'
+                                            template: '# if(Published) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
                                         }, {
                                             field: "Id",
                                             title: "@T("Admin.Common.Edit")",
@@ -381,11 +401,14 @@
                 <div class="form-horizontal">
                     <div class="modal-body">
                         @Html.AntiForgeryToken()
-                        <em>@T("Admin.Catalog.Products.List.ImportFromExcelTip")</em>
-                        <br />
-                        <em>@T("Admin.Common.ImportFromExcel.ManyRecordsWarning")</em>
-                        <br />
-                        <br />
+                        <ul class="common-list">
+                            <li>
+                                <em>@T("Admin.Catalog.Products.List.ImportFromExcelTip")</em>
+                            </li>
+                            <li>
+                                <em>@T("Admin.Common.ImportFromExcel.ManyRecordsWarning")</em>
+                            </li>
+                        </ul>
                         <div class="form-group">
                             <div class="col-md-2">
                                 <label class="control-label">

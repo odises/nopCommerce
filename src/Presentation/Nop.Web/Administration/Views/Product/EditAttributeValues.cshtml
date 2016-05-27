@@ -3,6 +3,8 @@
 @{
     //page title
     ViewBag.Title = string.Format(T("Admin.Catalog.Products.ProductAttributes.Attributes.Values.EditAttributeDetails").Text, Model.ProductAttributeName, Model.ProductName);
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Products");
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "productattribute-form" }))
@@ -11,7 +13,7 @@
     <div class="content-header clearfix">
         <h1 class="pull-left">
             @string.Format(T("Admin.Catalog.Products.ProductAttributes.Attributes.Values.EditAttributeDetails").Text, Model.ProductAttributeName, Model.ProductName)
-            <small>@Html.ActionLink("(" + T("Admin.Catalog.Products.ProductAttributes.Attributes.Values.BackToProduct") + ")", "Edit", "Product", new {Id = Model.ProductId}, null)</small>
+            <small><i class="fa fa-arrow-circle-left"></i>@Html.ActionLink(T("Admin.Catalog.Products.ProductAttributes.Attributes.Values.BackToProduct").Text, "Edit", "Product", new {Id = Model.ProductId}, null)</small>
         </h1>
         <div class="pull-right">
             &nbsp;
@@ -102,7 +104,7 @@
                                         width: 150,
                                         headerAttributes: { style: "text-align:center" },
                                         attributes: { style: "text-align:center" },
-                                        template: '<img src="@Url.Content("~/Administration/Content/images/")active-#=IsPreSelected#.gif" />'
+                                        template: '# if(IsPreSelected) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
                                     }, {
                                         field: "PictureThumbnailUrl",
                                         title: "@T("Admin.Catalog.Products.ProductAttributes.Attributes.Values.Fields.Picture")",

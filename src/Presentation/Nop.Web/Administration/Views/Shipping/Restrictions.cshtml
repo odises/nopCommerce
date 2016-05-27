@@ -3,6 +3,8 @@
 @{
     //page title
     ViewBag.Title = T("Admin.Configuration.Shipping.Restrictions").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Shipping method restrictions");
 }
 
 @using (Html.BeginForm())
@@ -13,7 +15,10 @@
             @T("Admin.Configuration.Shipping.Restrictions")
         </h1>
         <div class="pull-right">
-            <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+            <button type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
         </div>
     </div>
 
@@ -22,9 +27,7 @@
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-body" style="overflow-x: auto;">
-                        @T("Admin.Configuration.Shipping.Restrictions.Description")
-                        <br />
-                        <br />
+                        <p>@T("Admin.Configuration.Shipping.Restrictions.Description")</p>
                         @if (Model.AvailableCountries.Count == 0)
                         {       
                             <text>No countries defined</text>

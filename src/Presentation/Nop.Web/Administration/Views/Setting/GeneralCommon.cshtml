@@ -3,6 +3,8 @@
 @{
     //page title
     ViewBag.Title = T("Admin.Configuration.Settings.GeneralCommon").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("General settings");
 }
 
 @using (Html.BeginForm())
@@ -13,7 +15,10 @@
             @T("Admin.Configuration.Settings.GeneralCommon")
         </h1>
         <div class="pull-right">
-            <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")"/>
+            <button type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
         </div>
     </div>
 
@@ -379,7 +384,7 @@
                         <div class="input-group input-group-short">
                             @Html.NopEditorFor(model => model.SecuritySettings.EncryptionKey)
                             <span class="input-group-btn">
-                                <input type="submit" name="changeencryptionkey" value="@T("Admin.Common.Change")" id="changeencryptionkey" class="btn btn-info btn-flat" onclick="return confirm('@T("Admin.Common.AreYouSure")');" />
+                                <input type="submit" name="changeencryptionkey" value="@T("Admin.Common.Change")" id="changeencryptionkey" class="btn btn-info" onclick="return confirm('@T("Admin.Common.AreYouSure")');" />
                             </span>
                         </div>
                         @Html.ValidationMessageFor(model => model.SecuritySettings.EncryptionKey)

@@ -6,6 +6,8 @@
 
     //page title
     ViewBag.Title = T("Admin.Catalog.Categories.Manage").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Categories");
 }
 
 @Html.AntiForgeryToken()
@@ -14,9 +16,15 @@
         @T("Admin.Catalog.Categories.Manage")
     </h1>
     <div class="pull-right">
-        <a href="@Url.Action("Create")" class="btn bg-blue">@T("Admin.Common.AddNew")</a>
+        <a href="@Url.Action("Create")" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
         <div class="btn-group">
-            <button type="button" class="btn btn-success">@T("Admin.Common.Export")</button>
+            <button type="button" class="btn btn-success">
+                <i class="fa fa-exchange"></i>
+                @T("Admin.Common.Export")
+            </button>
             <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">&nbsp;</span>
@@ -26,7 +34,10 @@
                 <li><a href="@Url.Action("ExportXlsx")">@T("Admin.Common.ExportToExcel")</a></li>
             </ul>
         </div>
-        <input type="button" name="importexcel" class="btn bg-olive" value="@T("Admin.Common.ImportFromExcel")" data-toggle="modal" data-target="#importexcel-window" />
+        <button type="button" name="importexcel" class="btn bg-olive" data-toggle="modal" data-target="#importexcel-window">
+            <i class="fa fa-exchange"></i>
+            @T("Admin.Common.Import")
+        </button>
     </div>
 </div>
 
@@ -55,7 +66,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-8 col-md-offset-4">
-                                    <input type="button" id="search-categories" class="btn btn-primary btn-search" value="@T("Admin.Common.Search")" />
+                                    <button type="button" id="search-categories" class="btn btn-primary btn-search"><i class="fa fa-search"></i>@T("Admin.Common.Search")</button>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +125,7 @@
                                         width: 100,
                                         headerAttributes: { style: "text-align:center" },
                                         attributes: { style: "text-align:center" },
-                                        template: '<img src="@Url.Content("~/Administration/Content/images/")active-#=Published#.gif" />'
+                                        template: '# if(Published) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
                                     }, {
                                         field: "DisplayOrder",
                                         title: "@T("Admin.Catalog.Categories.Fields.DisplayOrder")",
@@ -177,11 +188,14 @@
                 <div class="form-horizontal">
                     <div class="modal-body">
                         @Html.AntiForgeryToken()
-                        <em>@T("Admin.Catalog.Category.List.ImportFromExcelTip")</em>
-                        <br />
-                        <em>@T("Admin.Common.ImportFromExcel.ManyRecordsWarning")</em>
-                        <br />
-                        <br />
+                        <ul class="common-list">
+                            <li>
+                                <em>@T("Admin.Catalog.Categories.List.ImportFromExcelTip")</em>
+                            </li>
+                            <li>
+                                <em>@T("Admin.Common.ImportFromExcel.ManyRecordsWarning")</em>
+                            </li>
+                        </ul>
                         <div class="form-group">
                             <div class="col-md-2">
                                 <label class="control-label">

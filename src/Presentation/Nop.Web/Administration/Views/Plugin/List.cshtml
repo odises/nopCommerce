@@ -3,6 +3,8 @@
 @{
     //page title
     ViewBag.Title = T("Admin.Configuration.Plugins.Local").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Local plugins");
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "plugins-form" }))
@@ -53,7 +55,6 @@
                                     </ol>
                                     You can download more nopCommerce plugins on our <a href="http://www.nopcommerce.com/extensions-and-themes.aspx?utm_source=admin-panel&utm_medium=plugins&utm_campaign=admin-panel" target="_blank">extensions directory</a>
                                 </p>
-                                <br />
 
                                 <div class="form-group">
                                     <div class="col-md-4">
@@ -73,7 +74,10 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-8 col-md-offset-4">
-                                        <input type="button" id="search-plugins" class="btn btn-primary btn-search" value="@T("Admin.Common.Search")" />
+                                        <button type="button" id="search-plugins" class="btn btn-primary btn-search">
+                                            <i class="fa fa-search"></i>
+                                            @T("Admin.Common.Search")
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -138,19 +142,21 @@
                                             field: "FriendlyName",
                                             title: "@T("Admin.Configuration.Plugins.Info")",
                                             template: '<b>#:FriendlyName#</b>' +
-                                                '<br />@T("Admin.Configuration.Plugins.Fields.Version") #:Version#' +
-                                                '<br />@T("Admin.Configuration.Plugins.Fields.Author") #:Author#' +
-                                                '<br />@T("Admin.Configuration.Plugins.Fields.SystemName") #:SystemName#' +
-                                                '<br />@T("Admin.Configuration.Plugins.Fields.DisplayOrder") #:DisplayOrder#' +
-                                                '<br />@T("Admin.Configuration.Plugins.Fields.Installed") <img src="@Url.Content("~/Administration/Content/images/")active-#=Installed#.gif" />' +
-                                                '# if(CanChangeEnabled) {# <br />@T("Admin.Configuration.Plugins.Fields.IsEnabled") <img src="@Url.Content("~/Administration/Content/images/")active-#=IsEnabled#.gif" /> #} #' +
+                                                '<ul class="common-list">' +
+                                                '<li>@T("Admin.Configuration.Plugins.Fields.Version") #:Version#</li>' +
+                                                '<li>@T("Admin.Configuration.Plugins.Fields.Author") #:Author#</li>' +
+                                                '<li>@T("Admin.Configuration.Plugins.Fields.SystemName") #:SystemName#</li>' +
+                                                '<li>@T("Admin.Configuration.Plugins.Fields.DisplayOrder") #:DisplayOrder#</li>' +
+                                                '<li>@T("Admin.Configuration.Plugins.Fields.Installed")  # if(Installed) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #</li>' +
+                                                '# if(CanChangeEnabled) {# <li>@T("Admin.Configuration.Plugins.Fields.IsEnabled") # if(IsEnabled) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} # </li> #} #' +
+                                                '</ul>' +
                                                 //allow configuration only when a plugin has a configuration URL specified
-                                                '<br /># if(ConfigurationUrl && ConfigurationUrl.length > 0) {# <a class="btn btn-primary" href="#=ConfigurationUrl#">@T("Admin.Configuration.Plugins.Fields.Configure")</a>&nbsp;&nbsp;&nbsp; #} #' +
+                                                '# if(ConfigurationUrl && ConfigurationUrl.length > 0) {# <a class="btn btn-primary" href="#=ConfigurationUrl#">@T("Admin.Configuration.Plugins.Fields.Configure")</a>&nbsp;&nbsp;&nbsp; #} #' +
                                                 '<a class="btn bg-aqua" href="javascript:OpenWindow(\'@Url.Content("~/Admin/Plugin/EditPopup")?systemName=#=SystemName#&btnId=btnRefresh&formId=plugins-form\', 800, 500, true);">@T("Admin.Common.Edit")</a>'
                                         }, {
                                             field: "Installed",
                                             title: "@T("Admin.Configuration.Plugins.Fields.Installation")",
-                                            template: '# if(Installed) {# <input type="submit" name="uninstall-plugin-link-#=SystemName#" class="btn bg-green" value="@T("Admin.Configuration.Plugins.Fields.Uninstall")" /> #} else {#  <input type="submit" name="install-plugin-link-#=SystemName#" class="btn bg-red" value="@T("Admin.Configuration.Plugins.Fields.Install")" /> #} #',
+                                            template: '# if(Installed) {# <input type="submit" name="uninstall-plugin-link-#=SystemName#" class="btn bg-green uninstall-plugin-link" value="@T("Admin.Configuration.Plugins.Fields.Uninstall")" /> #} else {#  <input type="submit" name="install-plugin-link-#=SystemName#" class="btn bg-red install-plugin-link" value="@T("Admin.Configuration.Plugins.Fields.Install")" /> #} #',
                                             headerAttributes: { style: "text-align:center" },
                                             attributes: { style: "text-align:center" }
                                         }
