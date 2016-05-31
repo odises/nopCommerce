@@ -541,9 +541,9 @@ input[type=file].form-control {
     background-color: #dd4b39;
     color: #fff;
 }
-.dropdown-menu input, 
-.dropdown-menu button,
-.dropdown-menu a {
+.content-header .btn-group .dropdown-menu input, 
+.content-header .btn-group .dropdown-menu button,
+.content-header .btn-group .dropdown-menu a {
     display: block;
     background: none;
     border: none;
@@ -675,6 +675,19 @@ ul.common-list {
 .dropdown-menu>li>a>.fa {
     margin-right: 0;
 }
+
+.info-box {
+    min-height: 106px;
+}
+
+.info-box-icon {
+    min-height: 106px;
+}
+
+.nav-tabs-customer-statistics .chart, .nav-tabs-order-statistics .chart {
+    height: 300px;
+}
+
 
 @media (max-width: 1200px) {
     .form-horizontal .ico-help {
