@@ -1175,7 +1175,7 @@ namespace Nop.Admin.Controllers
             try
             {
                 byte[] bytes = _exportManager.ExportOrdersToXlsx(orders);
-                return File(bytes, MimeTypes.TextXls, "orders.xlsx");
+                return File(bytes, MimeTypes.TextXlsx, "orders.xlsx");
             }
             catch (Exception exc)
             {
@@ -1207,7 +1207,7 @@ namespace Nop.Admin.Controllers
             try
             {
                 byte[] bytes = _exportManager.ExportOrdersToXlsx(orders);
-                return File(bytes, MimeTypes.TextXls, "orders.xlsx");
+                return File(bytes, MimeTypes.TextXlsx, "orders.xlsx");
             }
             catch (Exception exc)
             {
@@ -3941,6 +3941,7 @@ namespace Nop.Admin.Controllers
 
             return PartialView();
         }
+
         [HttpPost]
         public ActionResult OrderIncompleteReportList(DataSourceRequest command)
         {
@@ -3996,9 +3997,7 @@ namespace Nop.Admin.Controllers
 
             return Json(gridModel);
         }
-
-
-
+        
         public ActionResult CountryReport()
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.OrderCountryReport))
@@ -4016,6 +4015,7 @@ namespace Nop.Admin.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         public ActionResult CountryReportList(DataSourceRequest command, CountryReportModel model)
         {
@@ -4055,6 +4055,116 @@ namespace Nop.Admin.Controllers
             return Json(gridModel);
         }
 
+        [ChildActionOnly]
+        public ActionResult OrderStatistics()
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageOrders))
+                return Content("");
+
+            var model = new OrderStatisticsModel();
+            DateTime nowDt = _dateTimeHelper.ConvertToUserTime(DateTime.Now);
+            TimeZoneInfo timeZone = _dateTimeHelper.CurrentTimeZone;
+
+            //month statistics
+            var startMonthDt = nowDt.AddDays(-30);
+            if (!timeZone.IsInvalidTime(startMonthDt))
+            {
+                DateTime? startMonthDateUtc = _dateTimeHelper.ConvertToUtcTime(startMonthDt, timeZone);
+                for (int i = 0; i < 30; i++)
+                {
+                    var d = startMonthDateUtc.Value.AddDays(i);
+                    model.Month.Add(new OrderStatisticsItemModel()
+                    {
+                        Name = d.Date.ToString("M"),
+                        Value = _orderService.SearchOrders(createdFromUtc: d, createdToUtc: d.AddDays(1)).Count.ToString()
+                    });
+                }
+            }
+
+            //year statistics
+            var yearAgoRoundedDt = nowDt.AddDays(-365).AddMonths(1);
+            var startYearDt = new DateTime(yearAgoRoundedDt.Year, yearAgoRoundedDt.Month, 1);
+            if (!timeZone.IsInvalidTime(startYearDt))
+            {
+                DateTime? startYearDateUtc = _dateTimeHelper.ConvertToUtcTime(startYearDt, timeZone);
+                for (int i = 0; i < 12; i++)
+                {
+                    var d = startYearDateUtc.Value.AddMonths(i);
+                    model.Year.Add(new OrderStatisticsItemModel()
+                    {
+                        Name = d.Date.ToString("Y"),
+                        Value = _orderService.SearchOrders(createdFromUtc: d, createdToUtc: d.AddMonths(1)).Count.ToString()
+                    });
+                }
+            }
+
+            return PartialView(model);
+        }
+
+        [ChildActionOnly]
+        public ActionResult LatestOrders()
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageOrders))
+                return Content("");
+
+            return PartialView();
+        }
+
+        [ChildActionOnly]
+        public ActionResult IncompleteOrders()
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageOrders))
+                return Content("");
+
+            var model = new IncompleteOrdersChartModel();
+
+            //not paid
+            var orderStatuses = Enum.GetValues(typeof(OrderStatus)).Cast<int>().Where(os => os != (int)OrderStatus.Cancelled).ToList();
+            var paymentStatuses = new List<int>() { (int)PaymentStatus.Pending };
+            var psPending = _orderReportService.GetOrderAverageReportLine(psIds: paymentStatuses, osIds: orderStatuses);
+            model.UnpaidOrders = new IncompleteOrderItemModel()
+            {
+                ItemName = _localizationService.GetResource("Admin.SalesReport.Incomplete.TotalUnpaidOrders"),
+                Count = psPending.CountOrders,
+                Total = _priceFormatter.FormatPrice(psPending.SumOrders, true, false),
+                ViewLink = Url.Action("List", "Order", new
+                {
+                    orderStatusIds = string.Join(",", orderStatuses),
+                    paymentStatusIds = string.Join(",", paymentStatuses)
+                })
+            };
+
+            //not shipped
+            var shippingStatuses = new List<int>() { (int)ShippingStatus.NotYetShipped };
+            var ssPending = _orderReportService.GetOrderAverageReportLine(osIds: orderStatuses, ssIds: shippingStatuses);
+            model.NotYetShippedOrders = new IncompleteOrderItemModel()
+            {
+                ItemName = _localizationService.GetResource("Admin.SalesReport.Incomplete.TotalNotShippedOrders"),
+                Count = ssPending.CountOrders,
+                Total = _priceFormatter.FormatPrice(ssPending.SumOrders, true, false),
+                ViewLink = Url.Action("List", "Order", new
+                {
+                    orderStatusIds = string.Join(",", orderStatuses),
+                    shippingStatusIds = string.Join(",", shippingStatuses)
+                })
+            };
+
+            //pending
+            orderStatuses = new List<int>() { (int)OrderStatus.Pending };
+            var osPending = _orderReportService.GetOrderAverageReportLine(osIds: orderStatuses);
+            model.IncompleteOrders = new IncompleteOrderItemModel()
+            {
+                ItemName = _localizationService.GetResource("Admin.SalesReport.Incomplete.TotalIncompleteOrders"),
+                Count = osPending.CountOrders,
+                Total = _priceFormatter.FormatPrice(osPending.SumOrders, true, false),
+                ViewLink = Url.Action("List", "Order", new
+                {
+                    orderStatusIds = string.Join(",", orderStatuses)
+                })
+            };
+
+            return PartialView(model);
+        }
 
         #endregion
 

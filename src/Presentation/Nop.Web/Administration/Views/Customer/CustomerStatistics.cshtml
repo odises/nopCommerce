@@ -1,0 +1,141 @@
+﻿@model CustomerStatisticsModel
+
+<div class="nav-tabs-custom nav-tabs-customer-statistics">
+    <ul class="nav nav-tabs pull-right">
+        @*<li class="active">
+                <a data-toggle="tab" href="#customer-statistics-week">
+                    Week
+                </a>
+            </li>*@
+        <li class="active">
+            <a data-toggle="tab" href="#customer-statistics-moth">
+                @T("Admin.Customers.Reports.CustomerStatistics.Month")
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#customer-statistics-year">
+                @T("Admin.Customers.Reports.CustomerStatistics.Year")
+            </a>
+        </li>
+        <li class="pull-left header">
+            <i class="fa fa-user-plus"></i>
+            @T("Admin.Customers.Reports.CustomerStatistics")
+        </li>
+    </ul>
+    <div class="tab-content">
+        @*<div class="tab-pane active" id="customer-statistics-week">
+                <div class="chart">
+                    <canvas id="customer-statistics-chart-week" height="300"></canvas>
+                </div>
+            </div>*@
+        <div class="tab-pane active" id="customer-statistics-moth">
+            <div class="chart">
+                <canvas id="customer-statistics-chart-moth" height="300"></canvas>
+            </div>
+        </div>
+        <div class="tab-pane" id="customer-statistics-year">
+            <div class="chart">
+                <canvas id="customer-statistics-chart-year" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var csCommonOptions = {
+            legend: {
+                display: false
+            },
+            showScale: true,
+            scaleShowGridLines: false,
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            scaleGridLineWidth: 1,
+            scaleShowHorizontalLines: true,
+            scaleShowVerticalLines: true,
+            bezierCurve: true,
+            pointDot: false,
+            pointDotRadius: 4,
+            pointDotStrokeWidth: 1,
+            pointHitDetectionRadius: 20,
+            datasetStroke: true,
+            datasetFill: true,
+            maintainAspectRatio: false,
+            responsive: true
+        }
+
+        var csMonthConfig = {
+            type: 'line',
+            data: {
+                labels: [
+                    @foreach (var item in Model.Month)
+                    {
+                        <text>'@item.Name',</text>
+                    }
+                ],
+                datasets: [
+                    {
+                        label: "@T("Admin.Customers.Reports.CustomerStatistics")",
+                        fillColor: "rgba(60,141,188,0.9)",
+                        strokeColor: "rgba(60,141,188,0.8)",
+                        pointColor: "#3b8bba",
+                        pointStrokeColor: "rgba(60,141,188,1)",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(60,141,188,1)",
+                        borderColor: 'rgba(60, 141, 188, 0.7)',
+                        backgroundColor: 'rgba(44, 152, 214, 0.5)',
+                        pointBorderColor: 'rgba(37, 103, 142, 0.9)',
+                        pointBackgroundColor: 'rgba(60, 141, 188, 0.4)',
+                        pointBorderWidth: 1,
+                        data: [
+                            @foreach (var item in Model.Month)
+                            {
+                                <text>'@item.Value',</text>
+                            }
+                        ]
+                    }
+                ]
+            },
+            options: csCommonOptions
+        }
+
+        var csYearConfig = {
+            type: 'line',
+            data: {
+                labels: [
+                    @foreach (var item in Model.Year)
+                    {
+                        <text>'@item.Name',</text>
+                    }
+                ],
+                datasets: [
+                    {
+                        label: "@T("Admin.Customers.Reports.CustomerStatistics")",
+                        fillColor: "rgba(60,141,188,0.9)",
+                        strokeColor: "rgba(60,141,188,0.8)",
+                        pointColor: "#3b8bba",
+                        pointStrokeColor: "rgba(60,141,188,1)",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(60,141,188,1)",
+                        borderColor: 'rgba(89, 38, 128, 0.5)',
+                        backgroundColor: 'rgba(116, 60, 188, 0.5)',
+                        pointBorderColor: 'rgba(65, 4, 111, 0.7)',
+                        pointBackgroundColor: 'rgba(148, 64, 213, 0.4)',
+                        pointBorderWidth: 1,
+                        data: [
+                            @foreach (var item in Model.Year)
+                            {
+                                <text>'@item.Value',</text>
+                            }
+                        ]
+                    }
+                ]
+            },
+            options: csCommonOptions
+        }
+
+        //window.customerStatisticsWeek = new Chart(document.getElementById("customer-statistics-chart-week").getContext("2d"), customersConfig);
+        window.customerStatisticsMoth = new Chart(document.getElementById("customer-statistics-chart-moth").getContext("2d"), csMonthConfig);
+        window.customerStatisticsYear = new Chart(document.getElementById("customer-statistics-chart-year").getContext("2d"), csYearConfig);
+    });
+</script>

@@ -52,10 +52,12 @@ table.adminContent {
     float: right;
     max-width: 90%;
 }
-.form-horizontal img.ico-help {
+.form-horizontal .ico-help {
     float: right;
-    margin-top: 8px;
-    margin-left: 5px;
+    margin-top: 6px;
+    margin-left: 6px;
+    color:#3c8dbc;
+    font-size: 1.17em;
 }
 
 .form-text-row {
@@ -477,7 +479,7 @@ input[type=file].form-control {
 
 .content-header>h1>small .fa-arrow-circle-left {
     font-size: 14px;
-    margin-right: 5px;
+    margin-right: 1px;
 }
 
 .content-header .btn {
@@ -539,9 +541,9 @@ input[type=file].form-control {
     background-color: #dd4b39;
     color: #fff;
 }
-.dropdown-menu input, 
-.dropdown-menu button,
-.dropdown-menu a {
+.content-header .btn-group .dropdown-menu input, 
+.content-header .btn-group .dropdown-menu button,
+.content-header .btn-group .dropdown-menu a {
     display: block;
     background: none;
     border: none;
@@ -670,55 +672,29 @@ ul.common-list {
     padding-left: 20px;
 }
 
-.sidebar-menu {
-    overflow: visible;
+.dropdown-menu>li>a>.fa {
+    margin-right: 0;
 }
 
-.sidebar-mini .sidebar-menu > li:not(.active):hover > a > span:not(.pull-right),
-.sidebar-mini .sidebar-menu > li:not(.active):hover > .treeview-menu {
-    display: block !important;
-    position: absolute;
-    width: 200px;
-    left: 50px;
+.info-box {
+    min-height: 106px;
 }
 
-.sidebar-mini .sidebar-menu > li:not(.active):hover > a > span:not(.pull-right) {
-    width: 180px;
+.info-box-icon {
+    min-height: 106px;
 }
 
-.sidebar-mini .sidebar-menu > li:not(.active):hover > a > span {
-    top: 0;
-    margin-left: -12px;
-    padding: 12px 5px 12px 0;
-    background-color: inherit;
+.nav-tabs-customer-statistics .chart, .nav-tabs-order-statistics .chart {
+    height: 300px;
 }
 
-.sidebar-mini .sidebar-menu > li:not(.active):hover > .treeview-menu {
-    top: 0;
-    margin-left: 0;
-    left: 185px;
-    z-index: 100;
-    padding: 5px 0;
-}
-
-.sidebar-mini.sidebar-collapse .sidebar-menu>li:hover>.treeview-menu {
-    top: 44px;
-    left: 50px;
-    width: 200px;
-}
-
-.sidebar-mini.sidebar-collapse .sidebar-menu>li:hover>a>span:not(.pull-right) {
-    width: 209px;
-    padding-left: 25px;
-    margin-left: -12px;
-}
 
 @media (max-width: 1200px) {
-    .form-horizontal img.ico-help {
+    .form-horizontal .ico-help {
          display: none;
     }
 
-    .form-horizontal .panel-search-popup img.ico-help {
+    .form-horizontal .panel-search-popup .ico-help {
          display: block;
     }
 
@@ -791,7 +767,7 @@ ul.common-list {
         padding-top: 0;
     }
 
-    .form-horizontal .panel-search-popup img.ico-help {
+    .form-horizontal .panel-search-popup .ico-help {
          display: none;
     }
 

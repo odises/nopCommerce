@@ -1943,6 +1943,7 @@ namespace Nop.Admin.Controllers
 
             return PartialView();
         }
+
         [HttpPost]
         public ActionResult ReportRegisteredCustomersList(DataSourceRequest command)
         {
@@ -1958,7 +1959,54 @@ namespace Nop.Admin.Controllers
 
             return Json(gridModel);
         }
-        
+
+        [ChildActionOnly]
+        public ActionResult CustomerStatistics()
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageOrders))
+                return Content("");
+
+            var model = new CustomerStatisticsModel();
+            DateTime nowDt = _dateTimeHelper.ConvertToUserTime(DateTime.Now);
+            TimeZoneInfo timeZone = _dateTimeHelper.CurrentTimeZone;
+
+            //month statistics
+            var startMonthDt = nowDt.AddDays(-30);
+            if (!timeZone.IsInvalidTime(startMonthDt))
+            {
+                DateTime? startMonthDateUtc = _dateTimeHelper.ConvertToUtcTime(startMonthDt, timeZone);
+                for (int i = 0; i < 30; i++)
+                {
+                    var d = startMonthDateUtc.Value.AddDays(i);
+                    model.Month.Add(new CustomerStatisticsItemModel()
+                    {
+                        Name = d.Date.ToString("M"),
+                        Value = _customerService.GetAllCustomers(createdFromUtc: d, createdToUtc: d.AddDays(1)).Count.ToString()
+                    });
+                }
+            }
+
+            //year statistics
+            var yearAgoRoundedDt = nowDt.AddDays(-365).AddMonths(1);
+            var startYearDt = new DateTime(yearAgoRoundedDt.Year, yearAgoRoundedDt.Month, 1);
+            if (!timeZone.IsInvalidTime(startYearDt))
+            {
+                DateTime? startYearDateUtc = _dateTimeHelper.ConvertToUtcTime(startYearDt, timeZone);
+                for (int i = 0; i < 12; i++)
+                {
+                    var d = startYearDateUtc.Value.AddMonths(i);
+                    model.Year.Add(new CustomerStatisticsItemModel()
+                    {
+                        Name = d.Date.ToString("Y"),
+                        Value = _customerService.GetAllCustomers(createdFromUtc: d, createdToUtc: d.AddMonths(1), 
+                        customerRoleIds: new [] { _customerService.GetCustomerRoleBySystemName(SystemCustomerRoleNames.Registered).Id }).Count.ToString()
+                    });
+                }
+            }
+
+            return PartialView(model);
+        }
+
         #endregion
 
         #region Current shopping cart/ wishlist
@@ -2099,7 +2147,7 @@ namespace Nop.Admin.Controllers
             try
             {
                 byte[] bytes = _exportManager.ExportCustomersToXlsx(customers);
-                return File(bytes, MimeTypes.TextXls, "customers.xlsx");
+                return File(bytes, MimeTypes.TextXlsx, "customers.xlsx");
             }
             catch (Exception exc)
             {
@@ -2127,7 +2175,7 @@ namespace Nop.Admin.Controllers
             try
             {
                 byte[] bytes = _exportManager.ExportCustomersToXlsx(customers);
-                return File(bytes, MimeTypes.TextXls, "customers.xlsx");
+                return File(bytes, MimeTypes.TextXlsx, "customers.xlsx");
             }
             catch (Exception exc)
             {

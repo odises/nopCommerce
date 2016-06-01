@@ -24,13 +24,13 @@
                 <i class="fa fa-plus-square"></i>
                 @T("Admin.Common.AddNew")
             </a>
-            <button type="submit" name="download-catalog-pdf" class="btn bg-purple" value="@T("Admin.Catalog.Products.List.DownloadPDF")">
-                <i class="fa fa-download"></i>
+            <button type="submit" name="download-catalog-pdf" class="btn bg-purple">
+                <i class="fa fa-file-pdf-o"></i>
                 @T("Admin.Catalog.Products.List.DownloadPDF")
             </button>
             <div class="btn-group">
                 <button type="button" class="btn btn-success">
-                    <i class="fa fa-exchange"></i>
+                    <i class="fa fa-download"></i>
                     @T("Admin.Common.Export")
                 </button>
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -38,18 +38,38 @@
                     <span class="sr-only">&nbsp;</span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    <li><input type="submit" name="exportxml-all" value="@T("Admin.Common.ExportToXml.All")" /></li>
-                    <li><button type="button" id="exportxml-selected">@T("Admin.Common.ExportToXml.Selected")</button></li>
+                    <li>
+                        <button type="submit" name="exportxml-all">
+                            <i class="fa fa-file-code-o"></i>
+                            @T("Admin.Common.ExportToXml.All")
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" id="exportxml-selected">
+                            <i class="fa fa-file-code-o"></i>
+                            @T("Admin.Common.ExportToXml.Selected")
+                        </button>
+                    </li>
                     <li class="divider"></li>
-                    <li><input type="submit" name="exportexcel-all" value="@T("Admin.Common.ExportToExcel.All")" /></li>
-                    <li><button type="button" id="exportexcel-selected">@T("Admin.Common.ExportToExcel.Selected")</button></li>
+                    <li>
+                        <button type="submit" name="exportexcel-all">
+                            <i class="fa fa-file-excel-o"></i>
+                            @T("Admin.Common.ExportToExcel.All")
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" id="exportexcel-selected">
+                            <i class="fa fa-file-excel-o"></i>
+                            @T("Admin.Common.ExportToExcel.Selected")
+                        </button>
+                    </li>
                 </ul>
             </div>
             @if (!Model.IsLoggedInAsVendor)
             {
                 //a vendor cannot import products
                 <button type="button" name="importexcel" class="btn bg-olive" data-toggle="modal" data-target="#importexcel-window">
-                    <i class="fa fa-exchange"></i>
+                    <i class="fa fa-upload"></i>
                     @T("Admin.Common.Import")
                 </button>
             }
@@ -149,7 +169,9 @@
                                         <div class="input-group input-group-short">
                                             @Html.NopEditorFor(model => model.GoDirectlyToSku)
                                             <span class="input-group-btn">
-                                                <input type="submit" id="go-to-product-by-sku" name="go-to-product-by-sku" class="btn btn-info btn-flat" value="@T("Admin.Common.Go")" />
+                                                <button type="submit" id="go-to-product-by-sku" name="go-to-product-by-sku" class="btn btn-info btn-flat">
+                                                    @T("Admin.Common.Go")
+                                                </button>
                                             </span>
                                         </div>
                                     </div>
@@ -298,7 +320,6 @@
                             return false;
                         }
                     });
-
                     //delete selected
                     $('#delete-selected').click(function(e) {
                         e.preventDefault();
@@ -421,7 +442,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary" value="@T("Admin.Common.ImportFromExcel")" />
+                        <button type="submit" class="btn btn-primary">
+                            @T("Admin.Common.ImportFromExcel")
+                        </button>
                     </div>
                 </div>
             }
