@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.ServiceModel.Syndication;
 using System.Web.Mvc;
@@ -8,7 +9,12 @@ using Nop.Admin.Models.Home;
 using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Common;
+using Nop.Core.Domain.Customers;
+using Nop.Core.Domain.Orders;
+using Nop.Services.Catalog;
 using Nop.Services.Configuration;
+using Nop.Services.Customers;
+using Nop.Services.Orders;
 using Nop.Services.Security;
 
 namespace Nop.Admin.Controllers
@@ -20,6 +26,10 @@ namespace Nop.Admin.Controllers
         private readonly CommonSettings _commonSettings;
         private readonly ISettingService _settingService;
         private readonly IPermissionService _permissionService;
+        private readonly IProductService _productService;
+        private readonly IOrderService _orderService;
+        private readonly ICustomerService _customerService;
+        private readonly IReturnRequestService _returnRequestService;
         private readonly IWorkContext _workContext;
         private readonly ICacheManager _cacheManager;
 
@@ -31,15 +41,23 @@ namespace Nop.Admin.Controllers
             CommonSettings commonSettings, 
             ISettingService settingService,
             IPermissionService permissionService,
+            IProductService productService,
+            IOrderService orderService,
+            ICustomerService customerService,
+            IReturnRequestService returnRequestService,
             IWorkContext workContext,
             ICacheManager cacheManager)
         {
             this._storeContext = storeContext;
             this._commonSettings = commonSettings;
             this._settingService = settingService;
+            this._permissionService = permissionService;
+            this._productService = productService;
+            this._orderService = orderService;
+            this._customerService = customerService;
+            this._returnRequestService = returnRequestService;
             this._workContext = workContext;
             this._cacheManager = cacheManager;
-            this._permissionService = permissionService;
         }
 
         #endregion
@@ -94,13 +112,36 @@ namespace Nop.Admin.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult DayStatistics()
+        public ActionResult CommonStatistics()
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageCustomers) ||
-                !_permissionService.Authorize(StandardPermissionProvider.ManageOrders))
+                !_permissionService.Authorize(StandardPermissionProvider.ManageOrders) ||
+                !_permissionService.Authorize(StandardPermissionProvider.ManageReturnRequests) ||
+                !_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 return Content("");
 
-            return PartialView();
+            var model = new CommonStatisticsModel();
+            var vendorId = _workContext.CurrentVendor != null ? _workContext.CurrentVendor.Id : 0;
+
+            model.NumberOfOrders = _orderService.SearchOrders(
+                vendorId: vendorId, 
+                pageIndex: 0, 
+                pageSize: 1).TotalCount;
+
+            model.NumberOfCustomers = _customerService.GetAllCustomers(
+                customerRoleIds: new [] { _customerService.GetCustomerRoleBySystemName(SystemCustomerRoleNames.Registered).Id }, 
+                pageIndex: 0, 
+                pageSize: 1).TotalCount;
+
+            model.NumberOfPendingReturnRequests = _returnRequestService.SearchReturnRequests(
+                rs: ReturnRequestStatus.Pending, 
+                pageIndex: 0, 
+                pageSize:1).TotalCount;
+
+            model.NumberOfLowStockProducts = _productService.GetLowStockProducts(vendorId, 0, 1).TotalCount +
+                                             _productService.GetLowStockProductCombinations(vendorId, 0, 1).TotalCount;
+
+            return PartialView(model);
         }
 
         #endregion

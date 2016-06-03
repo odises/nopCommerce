@@ -2,7 +2,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">
             <i class="fa fa-cart-plus"></i>
-            Latest Orders
+            @T("Admin.Dashboard.LatestOrders")
         </h3>
         <div class="box-tools pull-right">
             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -21,7 +21,7 @@
                                 url: "@Html.Raw(Url.Action("OrderList", "Order"))",
                                 type: "POST",
                                 dataType: "json",
-                                data: additionalData
+                                data: additionalDataLatestOrders
                             }
                         },
                         schema: {
@@ -49,17 +49,17 @@
                             title: "@T("Admin.Orders.Fields.ID")",
                             width: 80
                         },
-                                    {
-                                        field: "OrderStatus",
-                                        title: "@T("Admin.Orders.Fields.OrderStatus")",
-                                        width: 100,
-                                        template: '<span class="order-status ' +
-                                            '# if(OrderStatusId == 10) {# order-status-pending #} #' +
-                                            '# if(OrderStatusId == 20) {# order-status-processing #} #' +
-                                            '# if(OrderStatusId == 30) {# order-status-complete #} #' +
-                                            '# if(OrderStatusId == 40) {# order-status-cancelled #} #' +
-                                            '">#=OrderStatus#</span>'
-                                    },
+                        {
+                            field: "OrderStatus",
+                            title: "@T("Admin.Orders.Fields.OrderStatus")",
+                            width: 100,
+                            template: '<span class="order-status ' +
+                                '# if(OrderStatusId == 10) {# order-status-pending #} #' +
+                                '# if(OrderStatusId == 20) {# order-status-processing #} #' +
+                                '# if(OrderStatusId == 30) {# order-status-complete #} #' +
+                                '# if(OrderStatusId == 40) {# order-status-cancelled #} #' +
+                                '">#=OrderStatus#</span>'
+                        },
                         {
                             field: "CustomerEmail",
                             title: "@T("Admin.Orders.Fields.Customer")",
@@ -81,13 +81,13 @@
                             field: "Id",
                             title: "@T("Admin.Common.View")",
                             width: 50,
-                            template: '<a href="Edit/#=Id#">@T("Admin.Common.View")</a>'
+                            template: '<a href="@Url.Content("~/Admin/Order/Edit/")#=Id#">@T("Admin.Common.View")</a>'
                         }
                     ]
                 });
             });
 
-            function additionalData() {
+            function additionalDataLatestOrders() {
                 var data = {};
                 addAntiForgeryToken(data);
                 return data;
@@ -95,6 +95,6 @@
         </script>
     </div>
     <div class="box-footer clearfix">
-        <a href="@Url.Content("~/Admin/Order/List/")" class="btn btn-sm btn-info btn-flat">View All Orders</a>
+        <a href="@Url.Action("List", "Order")" class="btn btn-sm btn-info btn-flat">@T("Admin.Dashboard.LatestOrders.ViewAll")</a>
     </div>
 </div>

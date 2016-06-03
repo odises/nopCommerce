@@ -13,6 +13,7 @@
     var canManageOrders = permissionService.Authorize(StandardPermissionProvider.ManageOrders);
     var canManageCustomers = permissionService.Authorize(StandardPermissionProvider.ManageCustomers);
     var canManageProducts = permissionService.Authorize(StandardPermissionProvider.ManageProducts);
+    var canManageReturnRequests = permissionService.Authorize(StandardPermissionProvider.ManageReturnRequests);
 }
 
 @Html.AntiForgeryToken()
@@ -27,10 +28,19 @@
         <div class="col-md-12">
             @Html.Widget("admin_dashboard_top")
 
-            @if (!Model.IsLoggedInAsVendor && canManageOrders)
+            @if (!Model.IsLoggedInAsVendor)
             {
                 <div class="row">
-                    @Html.Action("DayStatistics", "Home")
+                    <div class="col-md-12">
+                        @Html.Action("NopCommerceNews", "Home")
+                    </div>
+                </div>
+            }
+
+            @if (!Model.IsLoggedInAsVendor && canManageOrders && canManageCustomers && canManageProducts && canManageReturnRequests)
+            {
+                <div class="row">
+                    @Html.Action("CommonStatistics", "Home")
                 </div>
             }
 
@@ -95,14 +105,6 @@
                 </div>
             }
 
-            @if (!Model.IsLoggedInAsVendor)
-            {
-                <div class="row">
-                    <div class="col-md-12">
-                        @Html.Action("NopCommerceNews", "Home")
-                    </div>
-                </div>
-            }
         </div>
 
         @Html.Widget("admin_dashboard_bottom")

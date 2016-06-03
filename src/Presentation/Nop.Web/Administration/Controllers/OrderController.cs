@@ -4061,7 +4061,63 @@ namespace Nop.Admin.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageOrders))
                 return Content("");
 
-            return PartialView();
+            var model = new OrderStatisticsModel();
+            var nowDt = _dateTimeHelper.ConvertToUserTime(DateTime.Now);
+            var timeZone = _dateTimeHelper.CurrentTimeZone;
+            var vendorId = _workContext.CurrentVendor != null ? _workContext.CurrentVendor.Id : 0;
+
+            //month statistics
+            var searchMonthDateUser = new DateTime(nowDt.Year, nowDt.AddMonths(-1).Month, nowDt.AddMonths(-1).Day);
+            if (!timeZone.IsInvalidTime(searchMonthDateUser))
+            {
+                DateTime searchMonthDateUtc = _dateTimeHelper.ConvertToUtcTime(searchMonthDateUser, timeZone);
+
+                do
+                {
+                    model.ByMonthItems.Add(new OrderStatisticsItemModel
+                    {
+                        Date = searchMonthDateUser.Date,
+                        Value = _orderService.SearchOrders(
+                            createdFromUtc: searchMonthDateUtc,
+                            createdToUtc: searchMonthDateUtc.AddDays(1),
+                            vendorId: vendorId,
+                            pageIndex: 0,
+                            pageSize: 1).TotalCount.ToString()
+                    });
+
+                    searchMonthDateUtc = searchMonthDateUtc.AddDays(1);
+                    searchMonthDateUser = searchMonthDateUser.AddDays(1);
+
+                } while (!(searchMonthDateUser.Month == nowDt.Month && searchMonthDateUser.Day > nowDt.Day));
+            }
+
+            //year statistics
+            var yearAgoRoundedDt = nowDt.AddYears(-1).AddMonths(1);
+            var searchYearDateUser = new DateTime(yearAgoRoundedDt.Year, yearAgoRoundedDt.Month, 1);
+            if (!timeZone.IsInvalidTime(searchYearDateUser))
+            {
+                DateTime searchYearDateUtc = _dateTimeHelper.ConvertToUtcTime(searchYearDateUser, timeZone);
+
+                do
+                {
+                    model.ByYearItems.Add(new OrderStatisticsItemModel
+                    {
+                        Date = searchYearDateUser.Date,
+                        Value = _orderService.SearchOrders(
+                            createdFromUtc: searchYearDateUtc,
+                            createdToUtc: searchYearDateUtc.AddMonths(1),
+                            vendorId: vendorId,
+                            pageIndex: 0,
+                            pageSize: 1).TotalCount.ToString()
+                    });
+
+                    searchYearDateUtc = searchYearDateUtc.AddMonths(1);
+                    searchYearDateUser = searchYearDateUser.AddMonths(1);
+
+                } while (!(searchYearDateUser.Year == nowDt.Year && searchYearDateUser.Month > nowDt.Month));
+            }
+
+            return PartialView(model);
         }
 
         [ChildActionOnly]
@@ -4079,7 +4135,54 @@ namespace Nop.Admin.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageOrders))
                 return Content("");
 
-            return PartialView();
+            var model = new IncompleteOrdersChartModel();
+
+            //not paid
+            var orderStatuses = Enum.GetValues(typeof(OrderStatus)).Cast<int>().Where(os => os != (int)OrderStatus.Cancelled).ToList();
+            var paymentStatuses = new List<int>() { (int)PaymentStatus.Pending };
+            var psPending = _orderReportService.GetOrderAverageReportLine(psIds: paymentStatuses, osIds: orderStatuses);
+            model.UnpaidOrders = new IncompleteOrderItemModel()
+            {
+                ItemName = _localizationService.GetResource("Admin.SalesReport.Incomplete.TotalUnpaidOrders"),
+                Count = psPending.CountOrders,
+                Total = _priceFormatter.FormatPrice(psPending.SumOrders, true, false),
+                ViewLink = Url.Action("List", "Order", new
+                {
+                    orderStatusIds = string.Join(",", orderStatuses),
+                    paymentStatusIds = string.Join(",", paymentStatuses)
+                })
+            };
+
+            //not shipped
+            var shippingStatuses = new List<int>() { (int)ShippingStatus.NotYetShipped };
+            var ssPending = _orderReportService.GetOrderAverageReportLine(osIds: orderStatuses, ssIds: shippingStatuses);
+            model.NotYetShippedOrders = new IncompleteOrderItemModel()
+            {
+                ItemName = _localizationService.GetResource("Admin.SalesReport.Incomplete.TotalNotShippedOrders"),
+                Count = ssPending.CountOrders,
+                Total = _priceFormatter.FormatPrice(ssPending.SumOrders, true, false),
+                ViewLink = Url.Action("List", "Order", new
+                {
+                    orderStatusIds = string.Join(",", orderStatuses),
+                    shippingStatusIds = string.Join(",", shippingStatuses)
+                })
+            };
+
+            //pending
+            orderStatuses = new List<int>() { (int)OrderStatus.Pending };
+            var osPending = _orderReportService.GetOrderAverageReportLine(osIds: orderStatuses);
+            model.IncompleteOrders = new IncompleteOrderItemModel()
+            {
+                ItemName = _localizationService.GetResource("Admin.SalesReport.Incomplete.TotalIncompleteOrders"),
+                Count = osPending.CountOrders,
+                Total = _priceFormatter.FormatPrice(osPending.SumOrders, true, false),
+                ViewLink = Url.Action("List", "Order", new
+                {
+                    orderStatusIds = string.Join(",", orderStatuses)
+                })
+            };
+
+            return PartialView(model);
         }
 
         #endregion
