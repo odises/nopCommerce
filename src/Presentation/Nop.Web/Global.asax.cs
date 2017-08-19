@@ -13,6 +13,7 @@ using Nop.Core.Infrastructure;
 using Nop.Services.Logging;
 using Nop.Services.Tasks;
 using Nop.Web.Controllers;
+using Nop.Web.Extensions;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Routes;
@@ -215,8 +216,17 @@ namespace Nop.Web
                 //public store
                 var workContext = EngineContext.Current.Resolve<IWorkContext>();
                 var culture = new CultureInfo(workContext.WorkingLanguage.LanguageCulture);
-                Thread.CurrentThread.CurrentCulture = culture;
-                Thread.CurrentThread.CurrentUICulture = culture;
+
+                if (workContext.WorkingLanguage.LanguageCulture == "fa-IR")
+                {
+                    PersianUtils.InitializePersianCalendar();
+                }
+                else
+                {
+                    Thread.CurrentThread.CurrentCulture = culture;
+                    Thread.CurrentThread.CurrentUICulture = culture;
+                }
+
             }
         }
 
