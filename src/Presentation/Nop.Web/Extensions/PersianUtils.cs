@@ -41,5 +41,12 @@ namespace Nop.Web.Extensions
         {
             return input?.Replace("ي", "ی")?.Replace("ك", "ک");
         }
+
+        public static void InitializeEnglishCalendar()
+        {
+            var cultureInfo = new CultureInfo("en-US");
+            System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = cultureInfo;
+        }
     }
 }

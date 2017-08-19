@@ -788,6 +788,8 @@ namespace Nop.Web.Controllers
         [StoreClosed(true)]
         public ActionResult SitemapXml()
         {
+            PersianUtils.InitializeEnglishCalendar();
+
             if (!_commonSettings.SitemapEnabled)
                 return RedirectToRoute("HomePage");
 
@@ -796,6 +798,9 @@ namespace Nop.Web.Controllers
                 string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
                 _storeContext.CurrentStore.Id);
             var siteMap = _cacheManager.Get(cacheKey, () => _sitemapGenerator.Generate(this.Url));
+
+            PersianUtils.InitializePersianCalendar();
+
             return Content(siteMap, "text/xml");
         }
 
